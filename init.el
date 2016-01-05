@@ -11,9 +11,9 @@
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/") t)
 
-;; (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-;;                          ("marmalade" . "http://marmalade-repo.org/packages/")
-;;                          ("melpa" . "http://melpa-stable.milkbox.net/packages/")))
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")
+                         ("melpa" . "http://melpa-stable.milkbox.net/packages/")))
 
 
 ;; Load and activate emacs packages. Do this first so that the
@@ -57,15 +57,45 @@
     smex
 
     ;; project navigation
-    ;; projectile
-    ox-gfm
+    projectile
+
+    ;; ansible minor mode and deps
+    ansible
+    yasnippet
+    auto-complete
+    yaml-mode
+
+;;    ox-gfm
     ;; colorful parenthesis matching
     rainbow-delimiters
+
+    ;; themes
+    calmer-forest-theme
+    cyberpunk-theme
+    
+
+    ;; Lua Mode
+    lua-mode
+
+    ;; Emamux (emacs + tmux integration)
+    emamux
 
     ;; edit html tags like sexps
     tagedit
 
-    ;; add org-bullets
+    ;; add slime
+    slime
+
+    ;; add multiple-cursors
+    multiple-cursors
+
+    ;; add ace-window
+    ace-window
+
+    ;; add markdown-mode
+    markdown-mode
+
+    ;; Add: org-bullets
     org-bullets
 
     ;; add multi-term
@@ -85,8 +115,8 @@
 ;; For example, if you download yaml-mode.el to ~/.emacs.d/vendor,
 ;; then you can add the following code to this file:
 ;;
-;; (require 'yaml-mode)
-;; (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 ;; 
 ;; Adding this code will make Emacs enter yaml mode whenever you open
 ;; a .yml file
@@ -138,7 +168,7 @@
  '(compilation-message-face (quote default))
  '(custom-safe-themes
    (quote
-    ("9e54a6ac0051987b4296e9276eecc5dfb67fdcd620191ee553f40a9b6d943e78" "a041a61c0387c57bb65150f002862ebcfe41135a3e3425268de24200b82d6ec9" "cf08ae4c26cacce2eebff39d129ea0a21c9d7bf70ea9b945588c1c66392578d1" default)))
+    ("1157a4055504672be1df1232bed784ba575c60ab44d8e6c7b3800ae76b42f8bd" "9e54a6ac0051987b4296e9276eecc5dfb67fdcd620191ee553f40a9b6d943e78" "a041a61c0387c57bb65150f002862ebcfe41135a3e3425268de24200b82d6ec9" "cf08ae4c26cacce2eebff39d129ea0a21c9d7bf70ea9b945588c1c66392578d1" default)))
  '(highlight-changes-colors ("#FD5FF0" "#AE81FF"))
  '(highlight-tail-colors
    (("#49483E" . 0)
@@ -179,8 +209,7 @@
      (340 . "#2790C3")
      (360 . "#66D9EF"))))
  '(vc-annotate-very-old-color nil)
- '(weechat-color-list
-   (unspecified "#272822" "#49483E" "#A20C41" "#F92672" "#67930F" "#A6E22E" "#968B26" "#E6DB74" "#21889B" "#66D9EF" "#A41F99" "#FD5FF0" "#349B8D" "#A1EFE4" "#F8F8F2" "#F8F8F0")))
+)
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -189,4 +218,8 @@
  )
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 (setq multi-term-program "/bin/zsh")
-
+(setq org-confirm-babel-evaluate nil)
+(setq tramp-default-method "ssh")
+(setq inferior-lisp-program "/bin/clisp")
+(setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "google-chrome")

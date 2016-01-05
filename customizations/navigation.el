@@ -14,10 +14,10 @@
 
 ;; Turn on recent file mode so that you can more easily switch to
 ;; recently edited files when you first start emacs
-(setq recentf-save-file (concat user-emacs-directory ".recentf"))
-(require 'recentf)
-(recentf-mode 1)
-(setq recentf-max-menu-items 40)
+;; (setq recentf-save-file (concat user-emacs-directory ".recentf"))
+;; (require 'recentf)
+;; (recentf-mode 1)
+;; (setq recentf-max-menu-items 40)
 
 
 ;; ido-mode allows you to more easily navigate choices. For example,
@@ -48,7 +48,9 @@
 
 ;; Shows a list of buffers
 (global-set-key (kbd "C-x C-b") 'ibuffer)
-
+(global-set-key (kbd "C-x o") 'ace-window)
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C-x g") 'magit-status)
 
 ;; Enhances M-x to allow easier execution of commands. Provides
 ;; a filterable list of possible commands in the minibuffer
