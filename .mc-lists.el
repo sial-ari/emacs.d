@@ -4,6 +4,10 @@
 (setq mc/cmds-to-run-for-all
       '(
         kill-region
+        org-delete-char
+        org-end-of-line
+        org-self-insert-command
+        paredit-forward-delete
         ))
 
 (setq mc/cmds-to-run-once

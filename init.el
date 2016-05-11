@@ -5,21 +5,40 @@
 ;; Define package repositories
 (require 'package)
 (add-to-list 'package-archives
+             '("elpy" . "http://jorgenschaefer.github.io/packages/") t)
+(add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives
              '("tromey" . "http://tromey.com/elpa/") t)
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/") t)
 
+
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
-                         ("melpa" . "http://melpa-stable.milkbox.net/packages/")))
+;;                         ("melpa" . "http://melpa-stable.milkbox.net/packages/")
+                         ("melpa" . "http://melpa.org/packages/")
+                         ("elpy" . "http://jorgenschaefer.github.io/packages/")))
 
 
 ;; Load and activate emacs packages. Do this first so that the
 ;; packages are loaded before you start trying to modify them.
 ;; This also sets the load path.
+;; (el-get)
 (package-initialize)
+
+(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+
+(unless (require 'el-get nil 'noerror)
+  (with-current-buffer
+      (url-retrieve-synchronously
+       "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el")
+    (goto-char (point-max))
+    (eval-print-last-sexp)))
+
+(add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
+(el-get 'sync)
+
 
 ;; Download the ELPA archive description if needed.
 ;; This informs Emacs about the latest versions of all packages, and
@@ -58,6 +77,7 @@
 
     ;; project navigation
     projectile
+    dash
 
     ;; ansible minor mode and deps
     ansible
@@ -65,18 +85,23 @@
     auto-complete
     yaml-mode
 
-;;    ox-gfm
+    ;; ox-gfm
     ;; colorful parenthesis matching
     rainbow-delimiters
 
     ;; themes
     calmer-forest-theme
     cyberpunk-theme
-    
 
     ;; Lua Mode
     lua-mode
 
+    ;; Python (elpy) Mode
+    elpy
+
+    ;; Python Django
+    python-django
+    
     ;; Emamux (emacs + tmux integration)
     emamux
 
@@ -92,8 +117,10 @@
     ;; add ace-window
     ace-window
 
-    ;; add markdown-mode
+    ;; markdown
     markdown-mode
+    websocket
+
 
     ;; Add: org-bullets
     org-bullets
@@ -166,9 +193,6 @@
  ;; If there is more than one, they won't work right.
  '(coffee-tab-width 2)
  '(compilation-message-face (quote default))
- '(custom-safe-themes
-   (quote
-    ("1157a4055504672be1df1232bed784ba575c60ab44d8e6c7b3800ae76b42f8bd" "9e54a6ac0051987b4296e9276eecc5dfb67fdcd620191ee553f40a9b6d943e78" "a041a61c0387c57bb65150f002862ebcfe41135a3e3425268de24200b82d6ec9" "cf08ae4c26cacce2eebff39d129ea0a21c9d7bf70ea9b945588c1c66392578d1" default)))
  '(highlight-changes-colors ("#FD5FF0" "#AE81FF"))
  '(highlight-tail-colors
    (("#49483E" . 0)
@@ -180,6 +204,7 @@
     ("#A41F99" . 85)
     ("#49483E" . 100)))
  '(magit-diff-use-overlays nil)
+ '(org-agenda-files (quote ("~/.org/infrastructure.org")))
  '(org-babel-load-languages
    (quote
     ((emacs-lisp . t)
@@ -208,8 +233,7 @@
      (320 . "#2896B5")
      (340 . "#2790C3")
      (360 . "#66D9EF"))))
- '(vc-annotate-very-old-color nil)
-)
+ '(vc-annotate-very-old-color nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -223,3 +247,25 @@
 (setq inferior-lisp-program "/bin/clisp")
 (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program "google-chrome")
+(elpy-enable)
+;; emms
+(require 'emms-setup)
+;; python-django.el
+(require 'python-django)
+;;
+(require 'projectile)
+
+(emms-standard)
+(emms-default-players)
+;; sudo-edit
+(defun sudo-edit (&optional arg)
+  "Edit currently visited file as root.
+
+With a prefix ARG prompt for a file to visit.
+Will also prompt for a file to visit if current
+buffer is not visiting a file."
+  (interactive "P")
+  (if (or arg (not buffer-file-name))
+      (find-file (concat "/sudo:root@localhost:"
+                         (ido-read-file-name "Find file(as root): ")))
+    (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))

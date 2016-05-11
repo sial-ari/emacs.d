@@ -51,6 +51,7 @@
 (global-set-key (kbd "C-x o") 'ace-window)
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
 (global-set-key (kbd "C-x g") 'magit-status)
+(global-set-key (kbd "C-x C-r") 'sudo-edit)
 
 ;; Enhances M-x to allow easier execution of commands. Provides
 ;; a filterable list of possible commands in the minibuffer
