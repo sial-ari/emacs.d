@@ -105,6 +105,9 @@
     ;; Emamux (emacs + tmux integration)
     emamux
 
+    ;; Racket-mode
+    racket-mode
+    
     ;; edit html tags like sexps
     tagedit
 
@@ -117,19 +120,40 @@
     ;; add ace-window
     ace-window
 
+    ;; vagrant tools
+    vagrant
+    vagrant-tramp
+
     ;; markdown
     markdown-mode
     websocket
 
+    ;; perl - template toolkit
+    tt-mode
 
-    ;; Add: org-bullets
+    ;; Add: org plugins
     org-bullets
+    org-wunderlist
 
     ;; add multi-term
     multi-term
 
+    ;; add powerline
+    powerline
+    
+    ;; add flycheck
+    flycheck
+    
+    ;; add free-keys
+    free-keys
+
     ;; git integration
-    magit))
+    magit
+
+    ;; google-translate
+    google-translate
+    
+    ))
 
 (dolist (p my-packages)
   (when (not (package-installed-p p))
@@ -193,6 +217,9 @@
  ;; If there is more than one, they won't work right.
  '(coffee-tab-width 2)
  '(compilation-message-face (quote default))
+ '(custom-safe-themes
+   (quote
+    ("a041a61c0387c57bb65150f002862ebcfe41135a3e3425268de24200b82d6ec9" default)))
  '(highlight-changes-colors ("#FD5FF0" "#AE81FF"))
  '(highlight-tail-colors
    (("#49483E" . 0)
@@ -212,6 +239,9 @@
      (clojure . t)
      (python . t)
      (ruby . t))))
+ '(package-selected-packages
+   (quote
+    (dired+ yaml-mode websocket web-mode turnip tt-mode tagedit smex slime rainbow-delimiters racket-mode python-django puppetfile-mode puppet-mode projectile persp-mode paredit ox-gfm org-wunderlist org-bullets multiple-cursors multi-term monokai-theme moe-theme material-theme markdown-mode magit lua-mode load-theme-buffer-local isend-mode farmhouse-theme exec-path-from-shell emamux elpy dracula-theme cyberpunk-theme curl-for-url color-theme-monokai clojure-mode-extra-font-locking cl-lib-highlight cider calmer-forest-theme auto-complete ansible-doc ansible ag ace-window)))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
    (quote
@@ -241,22 +271,54 @@
  ;; If there is more than one, they won't work right.
  )
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-(setq multi-term-program "/bin/zsh")
+(setq multi-term-program "/usr/bin/zsh")
 (setq org-confirm-babel-evaluate nil)
 (setq tramp-default-method "ssh")
 (setq inferior-lisp-program "/bin/clisp")
 (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program "google-chrome")
 (elpy-enable)
+
+;; reuse dired buffer
+(diredp-toggle-find-file-reuse-dir 1)
+
 ;; emms
 (require 'emms-setup)
-;; python-django.el
-(require 'python-django)
-;;
-(require 'projectile)
-
 (emms-standard)
 (emms-default-players)
+
+;; python-django.el
+(require 'python-django)
+
+;; projectile
+(require 'projectile)
+
+(require 'powerline) 
+(powerline-default-theme) 
+
+;; yaml
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.sls\\'" . yaml-mode))
+
+;; org-wunderlist
+;; (require 'org-wunderlist)
+;; (setq org-wunderlist-client-id "125188bc7590560a9328"
+;;       org-wunderlist-token "858656c6a5ddccc6a34f230381b360392b01e76391006ef6e9c38d4d5282"
+;;       org-wunderlist-file  "~/.org/Wunderlist.org"
+;;       org-wunderlist-dir "~/.org/org-wunderlist/")
+
+;; org-capture
+(setq org-directory "~/.org/")
+(setq org-default-notes-file (concat org-directory "notes"))
+(define-key global-map (kbd "M-N") 'org-capture)
+(setq org-capture-templates
+      '(("t" "Todo" entry (file+headline "~/.org/wiki.org" "Tasks")
+         "* TODO %?\n  %i\n  %a")
+        ("n" "Notes" entry (file+headline "~/.org/wiki.org" "Notes")
+         "* Notes %?\n %i\n $a")))
+
+
 ;; sudo-edit
 (defun sudo-edit (&optional arg)
   "Edit currently visited file as root.
@@ -269,3 +331,12 @@ buffer is not visiting a file."
       (find-file (concat "/sudo:root@localhost:"
                          (ido-read-file-name "Find file(as root): ")))
     (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
+
+;; Flycheck global mode
+;; (add-hook 'after-init-hook #'global-flycheck-mode)
+
+;; google-translate.el
+(require 'google-translate)
+(require 'google-translate-smooth-ui)
+(global-set-key "\C-ct" 'google-translate-smooth-translate)
+
