@@ -152,6 +152,9 @@
 
     ;; google-translate
     google-translate
+
+    ;; json
+    json-mode
     
     ))
 
