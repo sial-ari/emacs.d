@@ -11,3 +11,4 @@ backups
 elpa/**
 emms/**
 tramp
+el-get/**
