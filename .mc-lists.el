@@ -3,7 +3,9 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        ace-window
         kill-region
+        org-beginning-of-line
         org-delete-char
         org-end-of-line
         org-self-insert-command

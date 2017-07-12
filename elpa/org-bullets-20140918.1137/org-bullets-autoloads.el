@@ -1,10 +1,10 @@
 ;;; org-bullets-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
+(add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "org-bullets" "org-bullets.el" (22017 15971
-;;;;;;  599246 307000))
+;;;### (autoloads nil "org-bullets" "org-bullets.el" (22668 6746
+;;;;;;  778985 64000))
 ;;; Generated autoloads from org-bullets.el
 
 (autoload 'org-bullets-mode "org-bullets" "\

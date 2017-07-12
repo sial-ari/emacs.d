@@ -1,7 +1,3 @@
-;;;;
-;; Packages
-;;;;
-
 ;; Define package repositories
 (require 'package)
 (add-to-list 'package-archives
@@ -13,150 +9,115 @@
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/") t)
 
-
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
-;;                         ("melpa" . "http://melpa-stable.milkbox.net/packages/")
                          ("melpa" . "http://melpa.org/packages/")
                          ("elpy" . "http://jorgenschaefer.github.io/packages/")))
 
-
-;; Load and activate emacs packages. Do this first so that the
-;; packages are loaded before you start trying to modify them.
-;; This also sets the load path.
-;; (el-get)
 (package-initialize)
 
-(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
-
-(unless (require 'el-get nil 'noerror)
-  (with-current-buffer
-      (url-retrieve-synchronously
-       "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el")
-    (goto-char (point-max))
-    (eval-print-last-sexp)))
-
-(add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
-(el-get 'sync)
-
-
-;; Download the ELPA archive description if needed.
-;; This informs Emacs about the latest versions of all packages, and
-;; makes them available for download.
 (when (not package-archive-contents)
   (package-refresh-contents))
 
-;; The packages you want installed. You can also install these
-;; manually with M-x package-install
-;; Add in your own as you wish:
 (defvar my-packages
-  '(;; makes handling lisp expressions much, much easier
-    ;; Cheatsheet: http://www.emacswiki.org/emacs/PareditCheatsheet
+  '(
+    dired+
+    
     paredit
 
-    ;; key bindings and code colorization for Clojure
-    ;; https://github.com/clojure-emacs/clojure-mode
-    clojure-mode
-
-    ;; extra syntax highlighting for clojure
-    clojure-mode-extra-font-locking
-
-    ;; integration with a Clojure REPL
-    ;; https://github.com/clojure-emacs/cider
-    cider
-
-    ;; allow ido usage in as many contexts as possible. see
-    ;; customizations/navigation.el line 23 for a description
-    ;; of ido
-    ;; ido-ubiquitous
-
-    ;; Enhances M-x to allow easier execution of commands. Provides
-    ;; a filterable list of possible commands in the minibuffer
-    ;; http://www.emacswiki.org/emacs/Smex
-    smex
-
-    ;; project navigation
-    projectile
-    dash
-
-    ;; ansible minor mode and deps
-    ansible
-    yasnippet
-    auto-complete
-    yaml-mode
-
-    ;; ox-gfm
-    ;; colorful parenthesis matching
     rainbow-delimiters
 
-    ;; themes
-    calmer-forest-theme
-    cyberpunk-theme
+    smex
 
-    ;; Lua Mode
+    dash
+
+    yaml-mode
+
+    vagrant
+
+    vagrant-tramp
+
+    dracula-theme
+
     lua-mode
 
-    ;; Python (elpy) Mode
     elpy
 
-    ;; Python Django
-    python-django
-    
-    ;; Emamux (emacs + tmux integration)
     emamux
 
-    ;; edit html tags like sexps
-    tagedit
+    emms
 
-    ;; add slime
-    slime
-
-    ;; add multiple-cursors
     multiple-cursors
 
-    ;; add ace-window
     ace-window
 
-    ;; markdown
+    markdown-preview-mode
+
     markdown-mode
+
     websocket
 
-
-    ;; Add: org-bullets
     org-bullets
 
-    ;; add multi-term
     multi-term
+    
+    powerline
 
-    ;; git integration
-    magit))
+    flycheck
+
+    free-keys
+    
+    google-translate
+
+    magit
+
+    magithub
+
+    github-clone
+
+    git-auto-commit-mode
+
+    json-mode
+
+    ;; ido-ubiquitous
+    ;; persp-mode
+    
+    ))
 
 (dolist (p my-packages)
   (when (not (package-installed-p p))
     (package-install p)))
 
+;; start emacsclient maximized
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
-;; Place downloaded elisp files in ~/.emacs.d/vendor. You'll then be able
-;; to load them.
-;;
-;; For example, if you download yaml-mode.el to ~/.emacs.d/vendor,
-;; then you can add the following code to this file:
-;;
+;; emms
+(require 'emms-setup)
+(emms-standard)
+(emms-default-players)
+
+;; emamux
+(require 'emamux)
+
+;; yaml (salt)
 (require 'yaml-mode)
-(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
-;; 
-;; Adding this code will make Emacs enter yaml mode whenever you open
-;; a .yml file
-(add-to-list 'load-path "~/.emacs.d/vendor")
-;; Add custom elisp scripts to load path
-(add-to-list 'load-path "~/.emacs.d/lisp")
+(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.sls\\'" . yaml-mode))
 
-(add-to-list 'exec-path "~/.bin")
+;; powerline
+(require 'powerline)
+(powerline-default-theme)
 
+;; rainbow-delimiters
+(require 'rainbow-delimiters)
 
-;;;;
-;; Customization
-;;;;
+;; google-translate.el
+(require 'google-translate)
+(require 'google-translate-smooth-ui)
+
+;; magithub
+(require 'magithub)
+(magithub-feature-autoinject t)
 
 ;; Add a directory to our load path so that when you `load` things
 ;; below, Emacs knows where to look for the corresponding file.
@@ -183,16 +144,18 @@
 ;; For editing lisps
 (load "elisp-editing.el")
 
-;; Langauage-specific
-(load "setup-clojure.el")
-(load "setup-js.el")
+;; Custom exec-path
+(add-to-list 'exec-path "~/.bin")
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(coffee-tab-width 2)
  '(compilation-message-face (quote default))
+ '(custom-safe-themes
+   (quote
+    ("8577da1641ed4bdf255341ca92e3d0e49c9f4d574458f09ce78159690442cade" "a041a61c0387c57bb65150f002862ebcfe41135a3e3425268de24200b82d6ec9" default)))
  '(highlight-changes-colors ("#FD5FF0" "#AE81FF"))
  '(highlight-tail-colors
    (("#49483E" . 0)
@@ -204,14 +167,10 @@
     ("#A41F99" . 85)
     ("#49483E" . 100)))
  '(magit-diff-use-overlays nil)
- '(org-agenda-files (quote ("~/.org/infrastructure.org")))
- '(org-babel-load-languages
+ '(org-babel-load-languages (quote ((emacs-lisp . t) (sh . t) (python . t))))
+ '(package-selected-packages
    (quote
-    ((emacs-lisp . t)
-     (sh . t)
-     (clojure . t)
-     (python . t)
-     (ruby . t))))
+    (git-auto-commit-mode web-mode vagrant-tramp vagrant powerline dired+ yaml-mode websocket smex rainbow-delimiters persp-mode paredit org-bullets multiple-cursors multi-term markdown-mode magit lua-mode load-theme-buffer-local emamux elpy dracula-theme curl-for-url ag ace-window)))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
    (quote
@@ -234,38 +193,39 @@
      (340 . "#2790C3")
      (360 . "#66D9EF"))))
  '(vc-annotate-very-old-color nil))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-(setq multi-term-program "/bin/zsh")
-(setq org-confirm-babel-evaluate nil)
+
+;; multi-term
+(setq multi-term-program "/usr/bin/zsh")
+
+;; tramp
 (setq tramp-default-method "ssh")
-(setq inferior-lisp-program "/bin/clisp")
+
+;; elpy
+(elpy-enable)
+
+;; reuse dired buffer
+(diredp-toggle-find-file-reuse-dir 1)
+
+;; backup in one place. flat, no tree structure
+(setq backup-directory-alist '(("" . "~/.emacs.d/emacs-backup")))
+(setq auto-save-file-name-transforms
+          `((".*" ,"~/.emacs.d/emacs-backup")))
+
+;; org-mode
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+(setq org-confirm-babel-evaluate nil)
 (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program "google-chrome")
-(elpy-enable)
-;; emms
-(require 'emms-setup)
-;; python-django.el
-(require 'python-django)
-;;
-(require 'projectile)
 
-(emms-standard)
-(emms-default-players)
-;; sudo-edit
-(defun sudo-edit (&optional arg)
-  "Edit currently visited file as root.
+;; git-auto-commit-mode
+(require 'git-auto-commit-mode)
+(auto load 'git-auto-commit-mode "git-auto-commit-mode")
+(setq-default gac-automatically-push-p t)
 
-With a prefix ARG prompt for a file to visit.
-Will also prompt for a file to visit if current
-buffer is not visiting a file."
-  (interactive "P")
-  (if (or arg (not buffer-file-name))
-      (find-file (concat "/sudo:root@localhost:"
-                         (ido-read-file-name "Find file(as root): ")))
-    (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
