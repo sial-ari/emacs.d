@@ -21,6 +21,8 @@
 
 (defvar my-packages
   '(
+    ace-window
+    
     dired+
     
     paredit
@@ -59,7 +61,7 @@
 
     magit
 
-    magithub
+    ;; magithub
 
     github-clone
 
@@ -78,11 +80,6 @@
 
 ;; start emacsclient maximized
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
-
-;; emms
-(require 'emms-setup)
-(emms-standard)
-(emms-default-players)
 
 ;; emamux
 (require 'emamux)
@@ -104,8 +101,8 @@
 (require 'google-translate-smooth-ui)
 
 ;; magithub
-(require 'magithub)
-(magithub-feature-autoinject t)
+;; (require 'magithub)
+;; (magithub-feature-autoinject t)
 
 ;; Add a directory to our load path so that when you `load` things
 ;; below, Emacs knows where to look for the corresponding file.
@@ -144,7 +141,6 @@
  '(custom-safe-themes
    (quote
     ("a041a61c0387c57bb65150f002862ebcfe41135a3e3425268de24200b82d6ec9" default)))
-    ("8577da1641ed4bdf255341ca92e3d0e49c9f4d574458f09ce78159690442cade" "a041a61c0387c57bb65150f002862ebcfe41135a3e3425268de24200b82d6ec9" default)))
  '(highlight-changes-colors ("#FD5FF0" "#AE81FF"))
  '(highlight-tail-colors
    (("#49483E" . 0)
@@ -217,17 +213,6 @@
 ;; reuse dired buffer
 (diredp-toggle-find-file-reuse-dir 1)
 
-;; emms
-(require 'emms-setup)
-(emms-standard)
-(emms-default-players)
-
-;; python-django.el
-(require 'python-django)
-
-;; projectile
-(require 'projectile)
-
 (require 'powerline) 
 (powerline-default-theme) 
 
@@ -235,24 +220,6 @@
 (require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.sls\\'" . yaml-mode))
-
-;; org-wunderlist
-;; (require 'org-wunderlist)
-;; (setq org-wunderlist-client-id "125188bc7590560a9328"
-;;       org-wunderlist-token "858656c6a5ddccc6a34f230381b360392b01e76391006ef6e9c38d4d5282"
-;;       org-wunderlist-file  "~/.org/Wunderlist.org"
-;;       org-wunderlist-dir "~/.org/org-wunderlist/")
-
-;; org-capture
-(setq org-directory "~/.org/")
-(setq org-default-notes-file (concat org-directory "notes"))
-(define-key global-map (kbd "M-N") 'org-capture)
-(setq org-capture-templates
-      '(("t" "Todo" entry (file+headline "~/.org/wiki.org" "Tasks")
-         "* TODO %?\n  %i\n  %a")
-        ("n" "Notes" entry (file+headline "~/.org/wiki.org" "Notes")
-         "* Notes %?\n %i\n $a")))
-
 
 ;; sudo-edit
 (defun sudo-edit (&optional arg)
@@ -277,6 +244,7 @@ buffer is not visiting a file."
 
 ;; git-auto-commit-mode
 (require 'git-auto-commit-mode)
-(auto load 'git-auto-commit-mode "git-auto-commit-mode")
+(autoload 'git-auto-commit-mode "git-auto-commit-mode")
 (setq-default gac-automatically-push-p t)
+((nil ~/.org/reports/ ((eval git-auto-commit-mode 1))))
 
