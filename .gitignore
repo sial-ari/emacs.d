@@ -12,3 +12,4 @@ elpa/**
 emms/**
 tramp
 el-get/**
+emacs-backup/**
