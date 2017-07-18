@@ -21,6 +21,8 @@
 
 (defvar my-packages
   '(
+    ag
+    
     ace-window
     
     dired+
