@@ -14,3 +14,4 @@ emacs-backup/**
 .mc-lists.el
 tramp
 el-get/**
+emacs-backup/**
