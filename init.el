@@ -45,6 +45,8 @@
 
     lua-mode
 
+    multiple-cursors
+
     elpy
 
     emamux
