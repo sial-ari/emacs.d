@@ -42,6 +42,9 @@
 (global-set-key (kbd "C-x C-r") 'sudo-edit)
 (global-set-key (kbd "C-.") emamux:keymap)
 (global-set-key (kbd "C-c t")  'google-translate-smooth-translate)
+(global-set-key "\C-ca" 'org-agenda)
+(define-key global-map "\C-cc" 'org-capture)
+
 
 ;; Enhances M-x to allow easier execution of commands. Provides
 ;; a filterable list of possible commands in the minibuffer

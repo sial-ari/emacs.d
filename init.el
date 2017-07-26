@@ -91,6 +91,9 @@
 ;; start emacsclient maximized
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
+;; cheatsheet
+(require 'cheatsheet)
+
 ;; emms
 (require 'emms-setup)
 (emms-standard)
@@ -220,6 +223,9 @@
 
 ;; org-mode
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+(setq org-directory "~/.org" )
+(setq org-agenda-files '("~/.org"))
+(setq org-default-notes-file (concat org-directory "/notes.org"))
 (setq org-confirm-babel-evaluate nil)
 (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program "google-chrome")
