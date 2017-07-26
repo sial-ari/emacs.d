@@ -47,17 +47,27 @@
 
     emms
 
+    racket-mode
+    
+    tagedit
+
+    slime
+
     multiple-cursors
 
     ace-window
 
     markdown-preview-mode
 
+    vagrant
+
+    vagrant-tramp
+
     markdown-mode
 
     websocket
 
-    org-bullets
+    org-wunderlist
 
     multi-term
     
@@ -81,6 +91,8 @@
 
     ;; ido-ubiquitous
     ;; persp-mode
+
+    powerline
     
     ))
 
@@ -234,4 +246,65 @@
 (require 'git-auto-commit-mode)
 (auto load 'git-auto-commit-mode "git-auto-commit-mode")
 (setq-default gac-automatically-push-p t)
+
+;; reuse dired buffer
+(diredp-toggle-find-file-reuse-dir 1)
+
+;; emms
+(require 'emms-setup)
+(emms-standard)
+(emms-default-players)
+
+;; python-django.el
+(require 'python-django)
+
+;; projectile
+(require 'projectile)
+
+(require 'powerline) 
+(powerline-default-theme) 
+
+;; yaml
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.sls\\'" . yaml-mode))
+
+;; org-wunderlist
+;; (require 'org-wunderlist)
+;; (setq org-wunderlist-client-id "125188bc7590560a9328"
+;;       org-wunderlist-token "858656c6a5ddccc6a34f230381b360392b01e76391006ef6e9c38d4d5282"
+;;       org-wunderlist-file  "~/.org/Wunderlist.org"
+;;       org-wunderlist-dir "~/.org/org-wunderlist/")
+
+;; org-capture
+(setq org-directory "~/.org/")
+(setq org-default-notes-file (concat org-directory "notes"))
+(define-key global-map (kbd "M-N") 'org-capture)
+(setq org-capture-templates
+      '(("t" "Todo" entry (file+headline "~/.org/wiki.org" "Tasks")
+         "* TODO %?\n  %i\n  %a")
+        ("n" "Notes" entry (file+headline "~/.org/wiki.org" "Notes")
+         "* Notes %?\n %i\n $a")))
+
+
+;; sudo-edit
+(defun sudo-edit (&optional arg)
+  "Edit currently visited file as root.
+
+With a prefix ARG prompt for a file to visit.
+Will also prompt for a file to visit if current
+buffer is not visiting a file."
+  (interactive "P")
+  (if (or arg (not buffer-file-name))
+      (find-file (concat "/sudo:root@localhost:"
+                         (ido-read-file-name "Find file(as root): ")))
+    (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
+
+;; Flycheck global mode
+;; (add-hook 'after-init-hook #'global-flycheck-mode)
+
+;; google-translate.el
+(require 'google-translate)
+(require 'google-translate-smooth-ui)
+(global-set-key "\C-ct" 'google-translate-smooth-translate)
 

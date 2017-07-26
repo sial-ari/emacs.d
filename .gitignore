@@ -12,3 +12,5 @@ elpa/**
 emms/**
 emacs-backup/**
 .mc-lists.el
+tramp
+el-get/**
