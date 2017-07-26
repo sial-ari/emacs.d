@@ -11,3 +11,4 @@ backups
 elpa/**
 emms/**
 emacs-backup/**
+.mc-lists.el
