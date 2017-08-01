@@ -45,13 +45,33 @@
 
     lua-mode
 
-    multiple-cursors
+    org-bullets
 
     elpy
 
     emamux
 
-    org-bullets
+    emms
+
+    racket-mode
+    
+    tagedit
+
+    slime
+
+    multiple-cursors
+
+    ace-window
+
+    markdown-preview-mode
+
+    vagrant
+
+    vagrant-tramp
+
+    markdown-mode
+
+    websocket
 
     multi-term
     
@@ -152,7 +172,7 @@
  '(compilation-message-face (quote default))
  '(custom-safe-themes
    (quote
-    ("a041a61c0387c57bb65150f002862ebcfe41135a3e3425268de24200b82d6ec9" default)))
+    ("8577da1641ed4bdf255341ca92e3d0e49c9f4d574458f09ce78159690442cade" "a041a61c0387c57bb65150f002862ebcfe41135a3e3425268de24200b82d6ec9" default)))
  '(highlight-changes-colors ("#FD5FF0" "#AE81FF"))
  '(highlight-tail-colors
    (("#49483E" . 0)
@@ -223,7 +243,11 @@
 (setq org-confirm-babel-evaluate nil)
 (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program "google-chrome")
-(elpy-enable)
+
+;; git-auto-commit-mode
+(require 'git-auto-commit-mode)
+(auto load 'git-auto-commit-mode "git-auto-commit-mode")
+(setq-default gac-automatically-push-p t)
 
 ;; reuse dired buffer
 (diredp-toggle-find-file-reuse-dir 1)
@@ -263,3 +287,4 @@ buffer is not visiting a file."
 (setq-default gac-automatically-push-p t)
 ((nil ~/.org/reports/ ((eval git-auto-commit-mode 1))))
 
+(put 'narrow-to-region 'disabled nil)

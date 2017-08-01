@@ -10,6 +10,8 @@ auto-save-list
 backups
 elpa/**
 emms/**
+emacs-backup/**
+.mc-lists.el
 tramp
 el-get/**
 emacs-backup/**
