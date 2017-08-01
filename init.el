@@ -24,6 +24,8 @@
     ag
     
     ace-window
+
+    cheatsheet
     
     dired+
     
