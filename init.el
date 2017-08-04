@@ -38,6 +38,8 @@
     dash
 
     yaml-mode
+    
+    salt-mode
 
     vagrant
 
