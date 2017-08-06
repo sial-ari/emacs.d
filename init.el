@@ -165,6 +165,9 @@
 ;; For editing lisps
 (load "elisp-editing.el")
 
+;; For cheatsheet.el
+(load "cheats.el")
+
 ;; Custom exec-path
 (add-to-list 'exec-path "~/.bin")
 
