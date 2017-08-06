@@ -57,8 +57,6 @@
 
     emms
      
-    cheatsheet
-
     racket-mode
     
     tagedit
@@ -280,7 +278,7 @@ buffer is not visiting a file."
     (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
 
 ;; Flycheck global mode
-;; (add-hook 'after-init-hook #'global-flycheck-mode)
+(add-hook 'after-init-hook #'global-flycheck-mode)
 
 ;; google-translate.el
 (require 'google-translate)
