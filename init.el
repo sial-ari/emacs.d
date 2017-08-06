@@ -24,6 +24,8 @@
     ag
     
     ace-window
+
+    cheatsheet
     
     dired+
     
@@ -36,6 +38,8 @@
     dash
 
     yaml-mode
+    
+    salt-mode
 
     vagrant
 
@@ -288,3 +292,4 @@ buffer is not visiting a file."
 (autoload 'git-auto-commit-mode "git-auto-commit-mode")
 (setq-default gac-automatically-push-p t)
 
+(put 'narrow-to-region 'disabled nil)
