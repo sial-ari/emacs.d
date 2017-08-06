@@ -52,6 +52,8 @@
     emamux
 
     emms
+     
+    cheatsheet
 
     racket-mode
     
@@ -285,5 +287,4 @@ buffer is not visiting a file."
 (require 'git-auto-commit-mode)
 (autoload 'git-auto-commit-mode "git-auto-commit-mode")
 (setq-default gac-automatically-push-p t)
-((nil ~/.org/reports/ ((eval git-auto-commit-mode 1))))
 
