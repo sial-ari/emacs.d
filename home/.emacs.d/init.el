@@ -25,6 +25,8 @@
     
     paredit
 
+    cheatsheet
+
     rainbow-delimiters
 
     smex
@@ -85,7 +87,7 @@
 
     github-clone
 
-    git-auto-commit-mode
+    ;; git-auto-commit-mode
 
     json-mode
 
@@ -185,7 +187,7 @@
  '(org-babel-load-languages (quote ((emacs-lisp . t) (sh . t) (python . t))))
  '(package-selected-packages
    (quote
-    (git-auto-commit-mode web-mode vagrant-tramp vagrant powerline dired+ yaml-mode websocket smex rainbow-delimiters persp-mode paredit org-bullets multiple-cursors multi-term markdown-mode magit lua-mode load-theme-buffer-local emamux elpy dracula-theme curl-for-url ag ace-window)))
+    (web-mode vagrant-tramp vagrant powerline dired+ yaml-mode websocket smex rainbow-delimiters persp-mode paredit org-bullets multiple-cursors multi-term markdown-mode magit lua-mode load-theme-buffer-local emamux elpy dracula-theme curl-for-url ag ace-window)))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
    (quote
@@ -243,9 +245,9 @@
       browse-url-generic-program "google-chrome")
 
 ;; git-auto-commit-mode
-(require 'git-auto-commit-mode)
-(auto load 'git-auto-commit-mode "git-auto-commit-mode")
-(setq-default gac-automatically-push-p t)
+;;(require 'git-auto-commit-mode)
+;;(auto load 'git-auto-commit-mode "git-auto-commit-mode")
+;;(setq-default gac-automatically-push-p t)
 
 ;; reuse dired buffer
 (diredp-toggle-find-file-reuse-dir 1)
@@ -254,12 +256,6 @@
 (require 'emms-setup)
 (emms-standard)
 (emms-default-players)
-
-;; python-django.el
-(require 'python-django)
-
-;; projectile
-(require 'projectile)
 
 (require 'powerline) 
 (powerline-default-theme) 
