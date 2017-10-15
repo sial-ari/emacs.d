@@ -69,7 +69,7 @@
 
     websocket
 
-    org-wunderlist
+    org-bullets
 
     multi-term
     
@@ -277,9 +277,11 @@
 (setq org-default-notes-file (concat org-directory "notes"))
 (define-key global-map (kbd "M-N") 'org-capture)
 (setq org-capture-templates
-      '(("t" "Todo" entry (file+headline "~/.org/wiki.org" "Tasks")
+      '(("t" "Todo" entry (file+headline "~/.org/todo.org" "Tasks")
          "* TODO %?\n  %i\n  %a")
-        ("n" "Notes" entry (file+headline "~/.org/wiki.org" "Notes")
+        ("j" "Journal entry" plain (file+datetree+prompt "~/.org/journal.org")
+         "%K - %a\n%i\n%?\n")
+        ("n" "Notes" entry (file+headline "~/.org/notes.org" "Notes")
          "* Notes %?\n %i\n $a")))
 
 
