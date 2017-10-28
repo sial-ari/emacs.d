@@ -242,7 +242,7 @@
 (setq org-default-notes-file (concat org-directory "/notes.org"))
 (setq org-confirm-babel-evaluate nil)
 (setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "chromium-browser")
+      browse-url-generic-program "chromium")
 
 ;; git-auto-commit-mode
 ;;(require 'git-auto-commit-mode)
