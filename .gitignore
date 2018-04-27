@@ -17,3 +17,4 @@ el-get/**
 emacs-backup/**
 .mc-lists.el
 \#emacs-backup\#
+eshell/**
