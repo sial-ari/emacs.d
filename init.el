@@ -93,10 +93,10 @@
 
     github-clone
 
-    git-auto-commit-mode
 
     json-mode
-
+    
+    weechat
     ;; ido-ubiquitous
     ;; persp-mode
     
@@ -168,6 +168,7 @@
 ;; For cheatsheet.el
 (load "cheats.el")
 
+
 ;; Custom exec-path
 (add-to-list 'exec-path "~/.bin")
 
@@ -194,7 +195,7 @@
  '(org-babel-load-languages (quote ((emacs-lisp . t) (sh . t) (python . t))))
  '(package-selected-packages
    (quote
-    (git-auto-commit-mode web-mode vagrant-tramp vagrant powerline dired+ yaml-mode websocket smex rainbow-delimiters persp-mode paredit org-bullets multiple-cursors multi-term markdown-mode magit lua-mode load-theme-buffer-local emamux elpy dracula-theme curl-for-url ag ace-window)))
+    (shx mingus fzf emojify weechat markdown-mode+ web-mode vagrant-tramp vagrant powerline dired+ yaml-mode websocket smex rainbow-delimiters persp-mode paredit org-bullets multiple-cursors multi-term markdown-mode magit lua-mode load-theme-buffer-local emamux elpy dracula-theme curl-for-url ag ace-window)))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
    (quote
@@ -251,10 +252,6 @@
 (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program "google-chrome")
 
-;; git-auto-commit-mode
-(require 'git-auto-commit-mode)
-(auto load 'git-auto-commit-mode "git-auto-commit-mode")
-(setq-default gac-automatically-push-p t)
 
 ;; reuse dired buffer
 (diredp-toggle-find-file-reuse-dir 1)
@@ -288,9 +285,7 @@ buffer is not visiting a file."
 (require 'google-translate-smooth-ui)
 (global-set-key "\C-ct" 'google-translate-smooth-translate)
 
-;; git-auto-commit-mode
-(require 'git-auto-commit-mode)
-(autoload 'git-auto-commit-mode "git-auto-commit-mode")
-(setq-default gac-automatically-push-p t)
+;; TRAMP configuration (automate this!!!)
+(setenv "SSH_AUTH_SOCK" (concat (getenv "HOME") "/.ssh-auth-sock"))
 
 (put 'narrow-to-region 'disabled nil)
