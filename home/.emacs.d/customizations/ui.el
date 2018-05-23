@@ -2,7 +2,7 @@
 (menu-bar-mode -1)
 
 ;; Show line numbers
-(global-linum-mode)
+(global-nlinum-mode)
 
 ;; You can uncomment this to remove the graphical toolbar at the top. After
 ;; awhile, you won't need the toolbar.
@@ -16,7 +16,7 @@
 (load-theme 'dracula t)
 
 ;; increase font size for better readability
-(set-face-attribute 'default nil :height 90)
+(set-face-attribute 'default nil :height 80)
 
 ;; Uncomment the lines below by removing semicolons and play with the
 ;; values in order to set the width (in characters wide) and height

@@ -45,6 +45,8 @@
 
     elpy
 
+    pyenv-mode
+
     emamux
 
     emms
@@ -95,6 +97,10 @@
     ;; persp-mode
 
     powerline
+
+    ag
+
+    nlinum
     
     ))
 
@@ -184,10 +190,12 @@
     ("#A41F99" . 85)
     ("#49483E" . 100)))
  '(magit-diff-use-overlays nil)
- '(org-babel-load-languages (quote ((emacs-lisp . t) (sh . t) (python . t))))
+ '(nil nil t)
+ '(org-babel-shell-initialize nil)
+ '(org-babel-shell-names (quote ("bash")))
  '(package-selected-packages
    (quote
-    (web-mode vagrant-tramp vagrant powerline dired+ yaml-mode websocket smex rainbow-delimiters persp-mode paredit org-bullets multiple-cursors multi-term markdown-mode magit lua-mode load-theme-buffer-local emamux elpy dracula-theme curl-for-url ag ace-window)))
+    (nlinum pyenv-mode web-mode vagrant-tramp vagrant powerline dired+ yaml-mode websocket smex rainbow-delimiters persp-mode paredit org-bullets multiple-cursors multi-term markdown-mode magit lua-mode load-theme-buffer-local emamux elpy dracula-theme curl-for-url ag ace-window)))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
    (quote
@@ -210,6 +218,8 @@
      (340 . "#2790C3")
      (360 . "#66D9EF"))))
  '(vc-annotate-very-old-color nil))
+
+(org-babel-do-load-languages 'org-babel-load-languages '((shell . t)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -306,3 +316,8 @@ buffer is not visiting a file."
 (require 'google-translate-smooth-ui)
 (global-set-key "\C-ct" 'google-translate-smooth-translate)
 
+(put 'narrow-to-region 'disabled nil)
+;; enable globally pyenv-mode
+(add-to-list 'exec-path "~/.pyenv/shims")
+(setenv "WORKON_HOME" "~/.pyenv/versions/")
+(pyenv-mode)
