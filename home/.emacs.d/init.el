@@ -348,6 +348,12 @@ buffer is not visiting a file."
 (setq aw-scope 'frame)
 (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
 
+;; gpg
+(require 'epa-file)
+(epa-file-enable)
+(setq epg-gpg-program "gpg2")
+(setenv "GPG_AGENT_INFO" nil)
+
 ;; exwm
 ;; (require 'exwm)
 ;; (require 'exwm-config)
