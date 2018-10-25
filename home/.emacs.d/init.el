@@ -338,7 +338,8 @@ buffer is not visiting a file."
 (pyenv-mode)
 
 ;; enable helm
-(helm-mode 1)
+;; (helm-mode 1)
+
 ;; exwm
 ;; (require 'exwm)
 ;; (require 'exwm-config)
