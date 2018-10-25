@@ -257,6 +257,17 @@
 (setq org-confirm-babel-evaluate nil)
 (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program "chromium")
+(defun org-babel-tangle-block()
+  (interactive)
+  (let ((current-prefix-arg '(4)))
+     (call-interactively 'org-babel-tangle)
+))
+
+(eval-after-load "org"
+  '(progn
+     (define-key org-mode-map (kbd "C-c b") 'org-babel-tangle-block)
+))
+
 
 ;; git-auto-commit-mode
 ;;(require 'git-auto-commit-mode)
