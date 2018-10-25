@@ -21,8 +21,6 @@
 
 (defvar my-packages
   '(
-    dired+
-    
     paredit
 
     cheatsheet
@@ -89,7 +87,7 @@
 
     magit
 
-    magithub
+    ;;magithub
 
     github-clone
 
@@ -241,8 +239,7 @@
 ;; elpy
 (elpy-enable)
 
-;; reuse dired buffer
-(diredp-toggle-find-file-reuse-dir 1)
+
 
 ;; backup in one place. flat, no tree structure
 (setq backup-directory-alist '(("" . "~/.emacs.d/emacs-backup")))
@@ -273,9 +270,6 @@
 ;;(require 'git-auto-commit-mode)
 ;;(auto load 'git-auto-commit-mode "git-auto-commit-mode")
 ;;(setq-default gac-automatically-push-p t)
-
-;; reuse dired buffer
-(diredp-toggle-find-file-reuse-dir 1)
 
 ;; emms
 (require 'emms-setup)
@@ -371,4 +365,8 @@ buffer is not visiting a file."
 ;; Set up load path.(shamelessly stolen from https://github.com/ivo-)
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
+(require 'setup-settings)
 (require 'setup-packages)
+
+;; reuse dired buffer
+(diredp-toggle-find-file-reuse-dir 1)
