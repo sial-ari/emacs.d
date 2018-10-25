@@ -1,0 +1,97 @@
+(require 'cl)
+(require 'package)
+
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/") t)
+;; keep the installed packages in .emacs.d
+(setq package-user-dir (expand-file-name "elpa" user-emacs-directory))
+(package-initialize)
+;; update the package metadata is the local cache is missing
+(unless package-archive-contents
+  (package-refresh-contents))
+
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+
+(require 'use-package)
+(setq use-package-verbose t)
+
+;; =============================================================================
+
+;; Better search and replace
+(use-package anzu
+  :ensure t
+  :config
+  (global-anzu-mode))
+
+;; Show vertical indentation lines
+(use-package indent-guide
+  :ensure t
+  :config
+  (indent-guide-mode +1)
+  (add-hook 'prog-mode-hook 'indent-guide-mode))
+
+;; Show available keybindings on inactivity
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode +1))
+
+;; Easy navigation without modifier keys
+(use-package god-mode
+  :ensure t
+  :bind ("M-<return>" . god-local-mode)
+  :config
+  (defun god-mode-update-cursor () (setq cursor-type (if (or god-local-mode buffer-read-only) 'hbar 'box)))
+  (add-hook 'god-mode-enabled-hook 'god-mode-update-cursor)
+  (add-hook 'god-mode-disabled-hook 'god-mode-update-cursor))
+
+;; Save buffer when they loose focus
+(use-package super-save
+  :ensure t
+  :config
+  (super-save-mode +1))
+
+;; google-translate
+(use-package google-translate
+  :ensure t
+  :bind (("M-j t"   . google-translate-at-point)
+         ("M-j T"   . google-translate-at-point-reverse)
+         ("M-j M-t" . google-translate-at-point)
+         ("M-j M-T" . google-translate-at-point-reverse))
+  :init
+  (setq google-translate-default-source-language "en")
+  (setq google-translate-default-target-language "bg"))
+
+;; modes are minor modes with no modeline display
+(use-package diminish
+  :ensure t
+  :init
+  (progn
+    (diminish 'git-gutter-mode)
+    (diminish 'anzu-mode)))
+
+;;  uniquify overrides Emacs’ default mechanism for making buffer names unique
+(use-package uniquify
+  :config
+  (setq uniquify-buffer-name-style 'forward)
+  (setq uniquify-separator "/")
+  ;; rename after killing uniquified
+  (setq uniquify-after-kill-buffer-p t)
+  ;; don't muck with special buffers
+  (setq uniquify-ignore-buffers-re "^\\*"))
+
+;; ispell
+(use-package ispell
+  :bind (("M-j s"   . 'ispell-word)
+         ("M-j M-s" . 'ispell-word))
+  :config
+  (setq-default ispell-program-name "aspell")
+  (when (executable-find ispell-program-name)
+    (add-hook 'text-mode-hook #'flyspell-mode)
+    (add-hook 'prog-mode-hook #'flyspell-prog-mode)))
+
+(add-hook 'org-mode-hook 'turn-on-auto-fill)
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+
+(provide 'setup-packages)
