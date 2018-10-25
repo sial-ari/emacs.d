@@ -30,7 +30,9 @@
     rainbow-delimiters
 
     smex
-
+    
+    exwm
+    
     dash
 
     yaml-mode
@@ -197,7 +199,7 @@
  '(org-babel-shell-names (quote ("bash")))
  '(package-selected-packages
    (quote
-    (helm nlinum pyenv-mode web-mode vagrant-tramp vagrant powerline dired+ yaml-mode websocket smex rainbow-delimiters persp-mode paredit org-bullets multiple-cursors multi-term markdown-mode magit lua-mode load-theme-buffer-local emamux elpy dracula-theme curl-for-url ag ace-window)))
+    (exwm-x ac-geiser geiser helm nlinum pyenv-mode web-mode vagrant-tramp vagrant powerline dired+ yaml-mode websocket smex rainbow-delimiters persp-mode paredit org-bullets multiple-cursors multi-term markdown-mode magit lua-mode load-theme-buffer-local emamux elpy dracula-theme curl-for-url ag ace-window)))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
    (quote
@@ -326,4 +328,19 @@ buffer is not visiting a file."
 
 ;; enable helm
 (helm-mode 1)
+;; exwm
+;; (require 'exwm)
+;; (require 'exwm-config)
+;; (exwm-config-default)
+;; 
+;; (defun exwm-auto-toggle-screen ()
+;;   (with-temp-buffer
+;;     (call-process "xrandr" nil t nil)
+;;     (beginning-of-buffer)
+;;     (if (search-forward "VGA1 connected" nil 'noerror)
+;;         (start-process-shell-command
+;;          "xrandr" nil "xrandr --output VGA1 --left-of LVDS1 --auto")
+;;       (start-process-shell-command
+;;        "xrandr" nil "xrandr --output VGA1 --off")))
+
 
