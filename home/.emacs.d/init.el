@@ -327,7 +327,6 @@ buffer is not visiting a file."
 ;; (add-hook 'after-init-hook #'global-flycheck-mode)
 
 ;; google-translate.el
-(require 'google-translate)
 (require 'google-translate-smooth-ui)
 (global-set-key "\C-ct" 'google-translate-smooth-translate)
 
