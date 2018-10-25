@@ -340,6 +340,10 @@ buffer is not visiting a file."
 ;; enable helm
 ;; (helm-mode 1)
 
+;; transparency
+(set-frame-parameter (selected-frame) 'alpha '(85 . 50))
+(add-to-list 'default-frame-alist '(alpha . (85 . 50)))
+
 ;; exwm
 ;; (require 'exwm)
 ;; (require 'exwm-config)
