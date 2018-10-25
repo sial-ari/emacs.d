@@ -371,3 +371,5 @@ buffer is not visiting a file."
 
 ;; Set up load path.(shamelessly stolen from https://github.com/ivo-)
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+
+(require 'setup-packages)
