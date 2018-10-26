@@ -365,8 +365,12 @@ buffer is not visiting a file."
 ;; Set up load path.(shamelessly stolen from https://github.com/ivo-)
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
+
+
 (require 'setup-settings)
 (require 'setup-packages)
+(require 'setup-keybindings)
+(require 'setup-defuns)
 
 ;; reuse dired buffer
 (diredp-toggle-find-file-reuse-dir 1)
