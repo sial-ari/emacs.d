@@ -141,8 +141,8 @@
 (require 'google-translate-smooth-ui)
 
 ;; magithub
-(require 'magithub)
-(magithub-feature-autoinject t)
+;;(require 'magithub)
+;;(magithub-feature-autoinject t)
 
 ;; Add a directory to our load path so that when you `load` things
 ;; below, Emacs knows where to look for the corresponding file.
