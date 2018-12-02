@@ -42,6 +42,7 @@
 (global-set-key (kbd "C-x C-r") 'sudo-edit)
 (global-set-key (kbd "C-.") emamux:keymap)
 (global-set-key (kbd "C-c t")  'google-translate-smooth-translate)
+(global-set-key (kbd "C-c C-v q")  'org-babel-execute-src-block)
 (global-set-key "\C-ca" 'org-agenda)
 (define-key global-map "\C-cc" 'org-capture)
 
