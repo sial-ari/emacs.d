@@ -113,9 +113,6 @@
 ;; start emacsclient maximized
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
-;; cheatsheet
-(require 'cheatsheet)
-
 ;; emms
 (require 'emms-setup)
 (emms-standard)
@@ -395,6 +392,7 @@ buffer is not visiting a file."
 (require 'setup-packages)
 (require 'setup-keybindings)
 (require 'setup-defuns)
+(require 'setup-cheatsheet)
 
 ;; reuse dired buffer
 (diredp-toggle-find-file-reuse-dir 1)
