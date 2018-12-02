@@ -13,7 +13,8 @@
 (when (fboundp 'scroll-bar-mode)
   (scroll-bar-mode -1))
 
-(load-theme 'dracula t)
+;;(load-theme 'dracula t)
+(load-theme 'monokai t)
 
 ;; increase font size for better readability
 (set-face-attribute 'default nil :height 80)
