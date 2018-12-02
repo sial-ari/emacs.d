@@ -67,7 +67,7 @@
 ;; Easy navigation without modifier keys
 (use-package god-mode
   :ensure t
-  :bind ("M-<return>" . god-local-mode)
+  ;;:bind ("M-<return>" . god-local-mode)
   :config
   (defun god-mode-update-cursor () (setq cursor-type (if (or god-local-mode buffer-read-only) 'hbar 'box)))
   (add-hook 'god-mode-enabled-hook 'god-mode-update-cursor)
