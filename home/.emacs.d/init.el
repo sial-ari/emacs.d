@@ -91,7 +91,7 @@
 
     github-clone
 
-    ;; git-auto-commit-mode
+    git-auto-commit-mode
 
     json-mode
 
