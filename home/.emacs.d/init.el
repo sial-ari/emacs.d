@@ -180,7 +180,8 @@
  '(compilation-message-face (quote default))
  '(custom-safe-themes
    (quote
-    ("8577da1641ed4bdf255341ca92e3d0e49c9f4d574458f09ce78159690442cade" "a041a61c0387c57bb65150f002862ebcfe41135a3e3425268de24200b82d6ec9" default)))
+    ("11e57648ab04915568e558b77541d0e94e69d09c9c54c06075938b6abc0189d8" "8577da1641ed4bdf255341ca92e3d0e49c9f4d574458f09ce78159690442cade" "a041a61c0387c57bb65150f002862ebcfe41135a3e3425268de24200b82d6ec9" default)))
+ '(help-window-select t)
  '(highlight-changes-colors ("#FD5FF0" "#AE81FF"))
  '(highlight-tail-colors
    (("#49483E" . 0)
@@ -197,7 +198,7 @@
  '(org-babel-shell-names (quote ("bash")))
  '(package-selected-packages
    (quote
-    (exwm-x ac-geiser geiser helm nlinum pyenv-mode web-mode vagrant-tramp vagrant powerline dired+ yaml-mode websocket smex rainbow-delimiters persp-mode paredit org-bullets multiple-cursors multi-term markdown-mode magit lua-mode load-theme-buffer-local emamux elpy dracula-theme curl-for-url ag ace-window)))
+    (symon monokai-theme molokai-theme exwm-x ac-geiser geiser helm nlinum pyenv-mode web-mode vagrant-tramp vagrant powerline dired+ yaml-mode websocket smex rainbow-delimiters persp-mode paredit org-bullets multiple-cursors multi-term markdown-mode magit lua-mode load-theme-buffer-local emamux elpy dracula-theme curl-for-url ag ace-window)))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
    (quote
