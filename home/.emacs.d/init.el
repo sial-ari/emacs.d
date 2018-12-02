@@ -349,9 +349,20 @@ buffer is not visiting a file."
 
 ;; exwm
 ;; (require 'exwm)
+;; (require 'exwm-systemtray)
 ;; (require 'exwm-config)
 ;; (exwm-config-default)
-;; 
+;; (exwm-systemtray-enable)
+;; (setq exwm-systemtray-height 16)
+
+
+;; (require 'exwm-randr)
+;; (setq exwm-randr-workspace-output-plist '(1 "LVDS1"))
+;;(add-hook 'exwm-randr-screen-change-hook
+;;          (lambda ()
+;;            (start-process-shell-command
+;;             "xrandr" nil "xrandr --output LVDS1 --right-of VGA1 --primary --auto")))
+
 ;; (defun exwm-auto-toggle-screen ()
 ;;   (with-temp-buffer
 ;;     (call-process "xrandr" nil t nil)
@@ -360,12 +371,24 @@ buffer is not visiting a file."
 ;;         (start-process-shell-command
 ;;          "xrandr" nil "xrandr --output VGA1 --left-of LVDS1 --auto")
 ;;       (start-process-shell-command
-;;        "xrandr" nil "xrandr --output VGA1 --off")))
+;;        "xrandr" nil "xrandr --output VGA1 --off"))))
+;; (exwm-auto-toggle-screen)
 
+;; (fringe-mode 1)
+;; (menu-bar-mode -1)
+;; (tool-bar-mode -1)
+;; (scroll-bar-mode -1)
+;; (setq left-margin-width 0)
+;; (set-face-background 'fringe "black")
+;; (setq exwm-workspace-minibuffer-position 'top)
+;; (setq exwm-input-global-keys
+;;       `(([?\s-j]. exwm-input-grab-keyboard)))
+
+
+;; (exwm-randr-enable)
+;; (exwm-enable)
 ;; Set up load path.(shamelessly stolen from https://github.com/ivo-)
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-
-
 
 (require 'setup-settings)
 (require 'setup-packages)
