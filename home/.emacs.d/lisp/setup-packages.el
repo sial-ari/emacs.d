@@ -96,7 +96,12 @@
   :init
   (progn
     (diminish 'git-gutter-mode)
-    (diminish 'anzu-mode)))
+    (diminish 'anzu-mode)
+    (diminish 'super-save-mode)
+    (diminish 'flycheck-mode)
+    (diminish 'paredit-mode)
+    (diminish 'which-key-mode)
+    (diminish 'flyspell-mode)))
 
 ;;  uniquify overrides Emacs’ default mechanism for making buffer names unique
 (use-package uniquify
