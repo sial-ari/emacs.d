@@ -300,11 +300,11 @@ buffer is not visiting a file."
 (require 'exwm-systemtray)
 (require 'exwm-config)
 (require 'exwm-randr)
-(setq exwm-randr-workspace-output-plist '(1 "DP-1"))
+(setq exwm-randr-workspace-output-plist '(1 "eDP1" 1 "HDMI1" 2 "HDMI1" 3 "HDMI1" 4 "HDMI1" 5 "HDMI2" 6 "HDMI2" 7 "HDMI2" 8 "HDMI2"))
 (add-hook 'exwm-randr-screen-change-hook
           (lambda ()
             (start-process-shell-command
-             "xrandr" nil "xrandr --output DP-1 --right-of DP-2 --auto")))
+             "xrandr" nil "xrandr --output HDMI2 --rotate left --right-of HDMI1 --auto")))
 (exwm-randr-enable)
 
 (fringe-mode 1)
