@@ -45,6 +45,7 @@
 (global-set-key (kbd "M-j M-l") 'join-line-or-lines-in-region)
 
 (global-set-key (kbd "M-j f o") 'open-with)
+(global-set-key (kbd "M-j f f") 'fzf-directory)
 (global-set-key (kbd "M-j f e") 'sudo-edit)
 (global-set-key (kbd "M-j f d") 'delete-buffer-file)
 (global-set-key (kbd "M-j f r") 'rename-buffer-file)
@@ -55,7 +56,13 @@
 
 (global-set-key (kbd "M-j c") 'cheatsheet-show)
 
+(global-set-key (kbd "M-j a") 'ag)
+
+(global-set-key (kbd "M-j m") 'simple-mpc-view-current-playlist)
+
 (global-set-key (kbd "C-z") emamux:keymap)
+
+(global-set-key (kbd "C-c s") 'osg)
 
 (global-set-key (kbd "M-j RET") 'switch-to-previous-buffer)
 

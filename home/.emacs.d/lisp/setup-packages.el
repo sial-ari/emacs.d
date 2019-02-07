@@ -82,10 +82,12 @@
 ;; google-translate
 (use-package google-translate
   :ensure t
-  :bind (("M-j t"   . google-translate-at-point)
-         ("M-j T"   . google-translate-at-point-reverse)
+  :bind (("M-j t p"   . google-translate-at-point)
+         ("M-j T p"   . google-translate-at-point-reverse)
          ("M-j M-t" . google-translate-at-point)
-         ("M-j M-T" . google-translate-at-point-reverse))
+         ("M-j M-T" . google-translate-at-point-reverse)
+         ("M-j t q" . google-translate-query-translate)
+         ("M-j T q" . google-translate-query-translate-reverse))
   :init
   (setq google-translate-default-source-language "en")
   (setq google-translate-default-target-language "bg"))
