@@ -317,13 +317,7 @@ buffer is not visiting a file."
 (setq exwm-systemtray-height 16)
 (exwm-systemtray-enable)
 (exwm-config-default)
-
-;; (setq exwm-input-global-keys
-;;       `(([?\s-j]. exwm-input-grab-keyboard)))
-
-
-;; (exwm-randr-enable)
-;; (exwm-enable)
+(exwm-enable)
 ;; Set up load path.(shamelessly stolen from https://github.com/ivo-)
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
