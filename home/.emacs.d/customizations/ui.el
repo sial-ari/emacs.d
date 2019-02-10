@@ -2,7 +2,7 @@
 (menu-bar-mode -1)
 
 ;; Show line numbers
-(global-nlinum-mode)
+;; (global-nlinum-mode)
 
 ;; You can uncomment this to remove the graphical toolbar at the top. After
 ;; awhile, you won't need the toolbar.
@@ -14,8 +14,16 @@
   (scroll-bar-mode -1))
 
 ;;(load-theme 'dracula t)
-(load-theme 'monokai t)
+;;(load-theme 'monokai t)
 
+(require 'moe-theme)
+
+;; Show highlighted buffer-id as decoration. (Default: nil)
+(setq moe-theme-highlight-buffer-id t)
+
+(moe-theme-set-color 'magenta)
+
+(moe-dark)
 ;; increase font size for better readability
 (set-face-attribute 'default nil :height 75)
 

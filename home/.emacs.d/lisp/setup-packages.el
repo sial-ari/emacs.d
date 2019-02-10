@@ -33,7 +33,8 @@
  my:el-get-packages
  '(el-get				; el-get is self-hosting
    escreen            			; screen for emacs, C-\ C-h
-   dired+))
+   dired+
+   moe-theme))
 
 (setq my:el-get-packages
       (append

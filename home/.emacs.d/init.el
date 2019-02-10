@@ -153,9 +153,7 @@
 ;; switch buffers, and choose options from the minibuffer.
 (load "navigation.el")
 
-;; These customizations change the way emacs looks and disable/enable
-;; some user interface elements
-(load "ui.el")
+
 
 ;; These customizations make editing a bit nicer.
 (load "editing.el")
@@ -295,7 +293,27 @@ buffer is not visiting a file."
 (setq epg-gpg-program "gpg2")
 (setenv "GPG_AGENT_INFO" nil)
 
-;; exwm
+
+;; Set up load path.(shamelessly stolen from https://github.com/ivo-)
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+
+(require 'setup-settings)
+(require 'setup-packages)
+(require 'setup-keybindings)
+(require 'setup-defuns)
+(require 'setup-cheatsheet)
+
+;; These customizations change the way emacs looks and disable/enable
+;; some user interface elements
+(load "ui.el")
+
+;; reuse dired buffer
+(diredp-toggle-find-file-reuse-dir 1)
+
+;; start emacs server
+(server-start)
+
+;;
 (require 'exwm)
 (require 'exwm-systemtray)
 (require 'exwm-config)
@@ -307,25 +325,19 @@ buffer is not visiting a file."
              "xrandr" nil "xrandr --output HDMI2 --rotate left --right-of HDMI1 --auto")))
 (exwm-randr-enable)
 
+;; Turn on `display-time-mode' if you don't use an external bar.
+(setq display-time-default-load-average nil)
+(display-time-mode t)
+
 (fringe-mode 1)
+(ido-mode -1)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (setq left-margin-width 0)
 (set-face-background 'fringe "black")
- (setq exwm-workspace-minibuffer-position 'top)
+(setq exwm-workspace-minibuffer-position 'bottom)
 (setq exwm-systemtray-height 16)
 (exwm-systemtray-enable)
 (exwm-config-default)
 (exwm-enable)
-;; Set up load path.(shamelessly stolen from https://github.com/ivo-)
-(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-
-(require 'setup-settings)
-(require 'setup-packages)
-(require 'setup-keybindings)
-(require 'setup-defuns)
-(require 'setup-cheatsheet)
-
-;; reuse dired buffer
-(diredp-toggle-find-file-reuse-dir 1)
