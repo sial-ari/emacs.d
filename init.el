@@ -309,6 +309,7 @@ buffer is not visiting a file."
 
 ;; reuse dired buffer
 (diredp-toggle-find-file-reuse-dir 1)
+(require 'setup-exwm)
 
 ;; start emacs server
 (server-start)
