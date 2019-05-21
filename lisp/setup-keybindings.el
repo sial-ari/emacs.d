@@ -59,8 +59,6 @@
 
 (global-set-key (kbd "C-z") emamux:keymap)
 
-(global-set-key (kbd "C-c s") 'osg)
-
 (global-set-key (kbd "M-j RET") 'switch-to-previous-buffer)
 (global-set-key (kbd "M-j C-S-o") 'kill-other-buffer-and-window)
 (global-set-key (kbd "M-j C-o") '(lambda () (interactive) (delete-other-windows)))
