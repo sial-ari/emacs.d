@@ -13,17 +13,8 @@
 (when (fboundp 'scroll-bar-mode)
   (scroll-bar-mode -1))
 
-;;(load-theme 'dracula t)
-;;(load-theme 'monokai t)
+(require 'dracula-theme)
 
-(require 'moe-theme)
-
-;; Show highlighted buffer-id as decoration. (Default: nil)
-(setq moe-theme-highlight-buffer-id t)
-
-(moe-theme-set-color 'magenta)
-
-(moe-dark)
 ;; increase font size for better readability
 (set-face-attribute 'default nil :height 75)
 
