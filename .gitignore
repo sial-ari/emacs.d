@@ -16,4 +16,6 @@ tramp
 el-get/**
 network-security.data
 transient/**
-#emacs-backup#
+\#emacs-backup\#
+bookmarks
+eshell/**
