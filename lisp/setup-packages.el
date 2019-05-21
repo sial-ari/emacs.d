@@ -1,6 +1,8 @@
 (require 'cl)
 (require 'package)
 
+;; Avoid the "loaded old bytecode instead of newer source" pitfall.
+(setq load-prefer-newer t)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
 ;; keep the installed packages in .emacs.d
