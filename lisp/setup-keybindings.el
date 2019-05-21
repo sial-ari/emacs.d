@@ -26,9 +26,6 @@
 (global-set-key (kbd "M-K") 'kill-whole-line)
 (global-set-key (kbd "M-L") 'duplicate-current-line-or-region)
 
-(global-set-key (kbd "C-S-o") 'kill-other-buffer-and-window)
-(global-set-key (kbd "C-o") '(lambda () (interactive) (delete-other-windows)))
-
 ;; =============================================================================
 ;; M-j space
 
@@ -65,6 +62,8 @@
 (global-set-key (kbd "C-c s") 'osg)
 
 (global-set-key (kbd "M-j RET") 'switch-to-previous-buffer)
+(global-set-key (kbd "M-j C-S-o") 'kill-other-buffer-and-window)
+(global-set-key (kbd "M-j C-o") '(lambda () (interactive) (delete-other-windows)))
 
 (global-set-key (kbd "M-j `") 'hide-eshell)
 (global-set-key (kbd "M-j 1") 'toggle-eshell-1)
