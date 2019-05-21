@@ -282,4 +282,9 @@ Repeated invocations toggle between the two most recently open buffers."
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer) 1)))
 
+(defun dump-plist(obj)
+    (unless (null obj)
+        (princ (format "%s %s\n" (car obj)  (cadr obj)))
+        (dump-plist (cddr obj))))
+
 (provide 'setup-defuns)
