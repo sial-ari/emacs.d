@@ -19,3 +19,4 @@ transient/**
 \#emacs-backup\#
 bookmarks
 eshell/**
+url/**
