@@ -1,26 +1,24 @@
-;; Define package repositories
 
 ;; start emacsclient maximized
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 (require 'package)
+
 (add-to-list 'package-archives
              '("elpy" . "http://jorgenschaefer.github.io/packages/") t)
+(add-to-list 'package-archives
+             '("gnu" . "http://elpa.gnu.org/packages/") t)
 (add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives
              '("tromey" . "http://tromey.com/elpa/") t)
 (add-to-list 'package-archives
-             '("melpa" . "http://melpa.org/packages/") t)
-
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")
-                         ("melpa" . "http://melpa.org/packages/")
-                         ("elpy" . "http://jorgenschaefer.github.io/packages/")))
-
+             '("melpa" . "https://melpa.org/packages/") t)
+;; keep the installed packages in .emacs.d
+(setq package-user-dir (expand-file-name "elpa" user-emacs-directory))
 (package-initialize)
-
-(when (not package-archive-contents)
+;; update the package metadata is the local cache is missing
+(unless package-archive-contents
   (package-refresh-contents))
 
 (defvar my-packages
