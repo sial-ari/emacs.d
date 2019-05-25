@@ -67,13 +67,11 @@
   (when (not (package-installed-p p))
     (package-install p)))
 
-;; start emacsclient maximized
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 ;; emms
-(require 'emms-setup)
-(emms-standard)
-(emms-default-players)
+;; (require 'emms-setup)
+;; (emms-standard)
+;; (emms-default-players)
 
 ;; emamux
 (require 'emamux)
@@ -110,8 +108,6 @@
 ;; switch buffers, and choose options from the minibuffer.
 (load "navigation.el")
 
-
-
 ;; These customizations make editing a bit nicer.
 (load "editing.el")
 
@@ -126,13 +122,6 @@
 
 (org-babel-do-load-languages 'org-babel-load-languages '((shell . t)))
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-
 ;; multi-term
 (setq multi-term-program "/usr/bin/zsh")
 
@@ -141,8 +130,6 @@
 
 ;; elpy
 (elpy-enable)
-
-
 
 ;; backup in one place. flat, no tree structure
 (setq backup-directory-alist '(("" . "~/.emacs.d/emacs-backup")))
@@ -168,16 +155,10 @@
      (define-key org-mode-map (kbd "C-c b") 'org-babel-tangle-block)
 ))
 
-
 ;; git-auto-commit-mode
 ;;(require 'git-auto-commit-mode)
 ;;(auto load 'git-auto-commit-mode "git-auto-commit-mode")
 ;;(setq-default gac-automatically-push-p t)
-
-;; emms
-(require 'emms-setup)
-(emms-standard)
-(emms-default-players)
 
 (require 'powerline) 
 (powerline-default-theme) 
@@ -194,32 +175,6 @@
 ;;       org-wunderlist-file  "~/.org/Wunderlist.org"
 ;;       org-wunderlist-dir "~/.org/org-wunderlist/")
 
-;; org-capture
-(setq org-directory "~/.org/")
-(setq org-default-notes-file (concat org-directory "notes"))
-(define-key global-map (kbd "M-N") 'org-capture)
-(setq org-capture-templates
-      '(("t" "Todo" entry (file+headline "~/.org/todo.org" "Tasks")
-         "* TODO %?\n  %i\n  %a")
-        ("j" "Journal entry" plain (file+datetree+prompt "~/.org/journal.org")
-         "%K - %a\n%i\n%?\n")
-        ("n" "Notes" entry (file+headline "~/.org/notes.org" "Notes")
-         "* Notes %?\n %i\n $a")))
-
-
-;; sudo-edit
-(defun sudo-edit (&optional arg)
-  "Edit currently visited file as root.
-
-With a prefix ARG prompt for a file to visit.
-Will also prompt for a file to visit if current
-buffer is not visiting a file."
-  (interactive "P")
-  (if (or arg (not buffer-file-name))
-      (find-file (concat "/sudo:root@localhost:"
-                         (ido-read-file-name "Find file(as root): ")))
-    (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
-
 ;; Flycheck global mode
 ;; (add-hook 'after-init-hook #'global-flycheck-mode)
 
@@ -227,7 +182,6 @@ buffer is not visiting a file."
 (require 'google-translate-smooth-ui)
 (global-set-key "\C-ct" 'google-translate-smooth-translate)
 
-(put 'narrow-to-region 'disabled nil)
 ;; enable globally pyenv-mode
 (add-to-list 'exec-path "~/.pyenv/shims")
 (setenv "WORKON_HOME" "~/.pyenv/versions/")
@@ -260,18 +214,6 @@ buffer is not visiting a file."
 (require 'setup-defuns)
 (require 'setup-cheatsheet)
 
-;; These customizations change the way emacs looks and disable/enable
-;; some user interface elements
-(load "ui.el")
-
-;; reuse dired buffer
-(diredp-toggle-find-file-reuse-dir 1)
-(require 'setup-exwm)
-
-;; start emacs server
-(server-start)
-
-;;
 (require 'exwm)
 (require 'exwm-systemtray)
 (require 'exwm-config)
