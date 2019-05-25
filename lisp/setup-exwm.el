@@ -23,39 +23,53 @@
           (concat "xrandr --output " default 
                   " --auto --primary")))))
 
+;; Update exwm-randr-workspace-output-plist with two outputs named
+;; 'default' and 'other'.  If the 'other' output is same as 'default'
+;; then all workspaces will be redirected to the 'default' output.
+
+(defun my-exwm-xrandr-config (default &optional first second)
+  (cond ((and first second)
+         (setq exwm-randr-workspace-output-plist
+               (progn
+                 (setq exwm-worspace-number 9)
+                 (setq index 1)
+                 (while (<= index 3)
+                   (setq result (append result (list index first)))
+                   (setq index (1+ index)))
+                 (while (<= index 6 )
+                   (setq result (append result (list index second)))
+                   (setq index (1+ index)))
+                 (while (<= index exwm-workspace-number)
+                   (setq result (append result (list index default)))
+                   (setq index (1+ index)))
+               result))
+        ((stringp first)
+         (setq exwm-randr-workspace-output-plist 
+               (progn
+                 (setq exwm-workspace-number 10)
+                 (setq index 1)
+                 (while (< index (/ exwm-workspace-number 2))
+                   (setq result (append result (list index default)))
+                   (setq index (1+ index)))
+                 (while (< index exwm-worspace-number)
+                   (setq result (append result (list index first)))
+                   (setq index (1+ index)))
+               result))
+        ((stringp default)
+         (setq exwm-randr-workspace-output-plist
+               (progn
+                 (setq exwm-workspace-number 8)
+                 (setq index 1)
+                 (while (<= exwm-workspace-number)
+                   (setq result (append result (list index default )))
+                   (setq index (1+ index)))
+                 result)))))
 
 ;; Disable xrandr output named 'output'.
 (defun my-exwm-xrandr-off (output)
   (if output (shell-command (concat "xrandr --output " output " --off"))))
 
-;; Update exwm-randr-workspace-output-plist with two outputs named
-;; 'default' and 'other'.  If the 'other' output is same as 'default'
-;; then all workspaces will be redirected to the 'default' output.
-(defun my-exwm-xrandr-config (default other)
-  (setq exwm-randr-workspace-output-plist
-	(progn
-	  (setq result (list 0 default))
-	  (setq index 1)
-	  (while (< index exwm-workspace-number)
-	    (setq result (append result (list index other)))
-	    (setq index (1+ index)))
-	  result)))
-
-(defun my-exwm-xrandr-alt-config (default other)
-  (setq exwm-workspace-alt-number 12)
-  (setq exwm-randr-workspace-output-plist
-	(progn
-          (setq result (list 0 default))
-	  (setq index 1)
-	  (while (< index (/ exwm-workspace-alt-number 2))
-	    (setq result (append result (list index default)))
-	    (setq index (1+ index)))
-          (while (< index exwm-workspace-alt-number)
-            (setq result (append result (list index other)))
-            (setq index (1+ index)))
-	  result)))
-
- ;; Dynamically find the active xrandr outputs and update exwm
+;; Dynamically find the active xrandr outputs and update exwm
 ;; workspace configuration and enable xrandr outputs appropriately.
 (defun my-exwm-xrandr-hook (default)
   (let* ((connected-cmd "xrandr -q|awk '/ connected/ {print $1}'")
@@ -65,16 +79,16 @@
 				 exwm-randr-workspace-output-plist))))
     (cond ((member "HDMI1" connected)
            (member "HDMI2" connected)
-	   (progn (my-exwm-xrandr-alt-config "HDMI1" "HDMI2")
-		  (my-exwm-xrandr-outputs default "HDMI1" "normal" "HDMI2" "left")))
+	   (progn (my-exwm-xrandr-config default "HDMI2" "HDMI1")
+		  (my-exwm-xrandr-outputs default "HDMI2" "normal" "HDMI1" "left")))
           ((member "HDMI1" connected)
 	   (progn (my-exwm-xrandr-config default "HDMI1")
-		  (my-exwm-xrandr-outputs default "HDMI1" "normal")))
+		  (my-exwm-xrandr-outputs default "HDMI1" "left")))
           ((member "HDMI2" connected)
 	   (progn (my-exwm-xrandr-config default "HDMI2")
 		  (my-exwm-xrandr-outputs default "HDMI2" "normal")))
           ((member "eDP1" connected)
-	   (progn (my-exwm-xrandr-config default "eDP1")
+	   (progn (my-exwm-xrandr-config default)
 		  (my-exwm-xrandr-outputs default)))
 	  (t (progn (my-exwm-xrandr-config default default)
  		    (mapcar 'my-exwm-xrandr-off
@@ -117,7 +131,5 @@
 ))
 
 (add-hook 'exwm-init-hook #'apps-at-startup)
-
-(exwm-enable)
 
 (provide 'setup-exwm)
