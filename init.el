@@ -20,92 +20,47 @@
 ;; update the package metadata is the local cache is missing
 (unless package-archive-contents
   (package-refresh-contents))
-
+;; old list of packages
+;; TODO: migrate to use-package
 (defvar my-packages
   '(
     paredit
-
     cheatsheet
-
     rainbow-delimiters
-
     smex
-    
     exwm
-    
     dash
-
     yaml-mode
-
     vagrant
-
     vagrant-tramp
-
     dracula-theme
-
-    lua-mode
-
     elpy
-
     pyenv-mode
-
     emamux
-
     emms
-
     helm
-
     racket-mode
-    
     tagedit
-
     slime
-
     multiple-cursors
-
     ace-window
-
     markdown-preview-mode
-
-    vagrant
-
-    vagrant-tramp
-
     markdown-mode
-
     websocket
-
     org-bullets
-
     multi-term
-    
     powerline
-
     flycheck
-
     free-keys
-    
     google-translate
-
     magit
-
-    ;;magithub
-
     github-clone
-
     git-auto-commit-mode
-
     json-mode
-
-    ;; ido-ubiquitous
-    ;; persp-mode
-
     powerline
-
     ag
-
     nlinum
-    
+    sane-term
     ))
 
 (dolist (p my-packages)
