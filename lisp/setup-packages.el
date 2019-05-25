@@ -3,6 +3,15 @@
 
 ;; Avoid the "loaded old bytecode instead of newer source" pitfall.
 (setq load-prefer-newer t)
+
+(add-to-list 'package-archives
+             '("elpy" . "http://jorgenschaefer.github.io/packages/") t)
+(add-to-list 'package-archives
+             '("gnu" . "http://elpa.gnu.org/packages/") t)
+(add-to-list 'package-archives
+             '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(add-to-list 'package-archives
+             '("tromey" . "http://tromey.com/elpa/") t)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
 ;; keep the installed packages in .emacs.d
@@ -11,14 +20,54 @@
 ;; update the package metadata is the local cache is missing
 (unless package-archive-contents
   (package-refresh-contents))
+;; old list of packages
+;; TODO: migrate to use-package
+(defvar my-packages
+  '(
+    paredit
+    cheatsheet
+    rainbow-delimiters
+    smex
+    exwm
+    dash
+    yaml-mode
+    vagrant
+    vagrant-tramp
+    dracula-theme
+    elpy
+    pyenv-mode
+    emamux
+    emms
+    helm
+    racket-mode
+    tagedit
+    slime
+    multiple-cursors
+    ace-window
+    markdown-preview-mode
+    markdown-mode
+    websocket
+    org-bullets
+    multi-term
+    powerline
+    flycheck
+    free-keys
+    google-translate
+    magitk
+    github-clone
+    git-auto-commit-mode
+    json-mode
+    powerline
+    ag
+    nlinum
+    sane-term
+    ))
 
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
+(dolist (p my-packages)
+  (when (not (package-installed-p p))
+    (package-install p)))
 
-(require 'use-package)
-(setq use-package-verbose t)
-
-;; el get
+;; install el get
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 
 (unless (require 'el-get nil t)
@@ -28,46 +77,60 @@
     (end-of-buffer)
     (eval-print-last-sexp)))
 
-;; now either el-get is `require'd already, or have been `load'ed by the
-;; el-get installer.
+;; install use-package if missing
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
 
-(setq
- my:el-get-packages
- '(el-get				; el-get is self-hosting
-   escreen            			; screen for emacs, C-\ C-h
-   dired+
-   moe-theme))
+;; install use-package-el-get if missing
+(unless (package-installed-p 'use-package-el-get)
+  (package-install 'use-package-el-get))
 
-(setq my:el-get-packages
-      (append
-       my:el-get-packages
-       (loop for src in el-get-sources collect (el-get-source-name src))))
+;; load use-package
+(require 'use-package)
+(setq use-package-verbose t)
 
-;; install new packages and init already installed packages
-(el-get 'sync my:el-get-packages)
+;; load use-package-el-get
+(require 'use-package-el-get)
+(setq use-package-always-ensure nil)
+(use-package-el-get-setup)
+
 
 ;; =============================================================================
+;; use-package definitions
 
-;; Better search and replace
+;; eshell screen
+(use-package escreen
+  :el-get t
+  :defer t)
+
+;; dired+
+(use-package dired+
+  :el-get t
+  :defer t
+  :config
+  ;; reuse dired buffer
+  (diredp-toggle-find-file-reuse-dir 1))
+
+;; better search and replace
 (use-package anzu
   :ensure t
   :config
   (global-anzu-mode))
 
-;; Show vertical indentation lines
+;; show vertical indentation lines
 (use-package indent-guide
   :ensure t
   :config
   (indent-guide-mode +1)
   (add-hook 'prog-mode-hook 'indent-guide-mode))
 
-;; Show available keybindings on inactivity
+;; show available keybindings on inactivity
 (use-package which-key
   :ensure t
   :config
   (which-key-mode +1))
 
-;; Easy navigation without modifier keys
+;; easy navigation without modifier keys
 (use-package god-mode
   :ensure t
   ;;:bind ("M-<return>" . god-local-mode)
@@ -76,7 +139,7 @@
   (add-hook 'god-mode-enabled-hook 'god-mode-update-cursor)
   (add-hook 'god-mode-disabled-hook 'god-mode-update-cursor))
 
-;; Save buffer when they loose focus
+;; save buffer when they loose focus
 (use-package super-save
   :ensure t
   :config
@@ -88,8 +151,7 @@
   :bind (("M-j t p"   . google-translate-at-point)
          ("M-j T p"   . google-translate-at-point-reverse)
          ("M-j M-t" . google-translate-at-point)
-         ("M-j M-T" . google-translate-at-point-reverse)
-         ("M-j t q" . google-translate-query-translate)
+         ("M-j M-T" . google-translate-at-point-reverse) ("M-j t q" . google-translate-query-translate)
          ("M-j T q" . google-translate-query-translate-reverse))
   :init
   (setq google-translate-default-source-language "en")
@@ -127,6 +189,32 @@
   (when (executable-find ispell-program-name)
     (add-hook 'text-mode-hook #'flyspell-mode)
     (add-hook 'prog-mode-hook #'flyspell-prog-mode)))
+
+;; desktop-environment
+(use-package desktop-environment
+  :ensure t
+  :diminish desktop-environment-mode
+  :init
+  (setq desktop-environment-screenshot-directory "~/")
+  (setq desktop-environment-screenlock-command "xscreensaver-command --lock")
+  :config
+  (desktop-environment-mode +1))
+
+;; symon
+(use-package symon
+  :ensure t
+  :config
+  (symon-mode +1))
+
+;; exwm-edit
+(use-package exwm-edit
+  :ensure t)
+
+;; dumb-jump
+(use-package dumb-jump
+  :ensure t
+  :config
+  (dumb-jump-mode +1))
 
 (add-hook 'org-mode-hook 'turn-on-auto-fill)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
