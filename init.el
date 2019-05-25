@@ -1,4 +1,8 @@
 ;; Define package repositories
+
+;; start emacsclient maximized
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+
 (require 'package)
 (add-to-list 'package-archives
              '("elpy" . "http://jorgenschaefer.github.io/packages/") t)
