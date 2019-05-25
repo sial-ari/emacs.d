@@ -218,13 +218,16 @@
 (setenv "GPG_AGENT_INFO" nil)
 (pinentry-start)
 
+;; These customizations change the way emacs looks and disable/enable
+;; some user interface elements
+(load "ui.el")
 
 ;; Set up load path.(shamelessly stolen from https://github.com/ivo-)
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
 (require 'setup-settings)
-(require 'setup-packages)
 (require 'setup-keybindings)
+(require 'setup-packages)
 (require 'setup-defuns)
 (require 'setup-cheatsheet)
 
