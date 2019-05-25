@@ -214,7 +214,9 @@
 (require 'epa-file)
 (epa-file-enable)
 (setq epg-gpg-program "gpg2")
+(setq epa-pinentry-mode 'loopback)
 (setenv "GPG_AGENT_INFO" nil)
+(pinentry-start)
 
 
 ;; Set up load path.(shamelessly stolen from https://github.com/ivo-)
