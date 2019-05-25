@@ -149,6 +149,18 @@
   (let ((current-prefix-arg '(4)))
      (call-interactively 'org-babel-tangle)
 ))
+(put 'narrow-to-region 'disabled nil)
+;; org-capture
+(setq org-directory "~/.org/")
+(setq org-default-notes-file (concat org-directory "notes"))
+(define-key global-map (kbd "M-N") 'org-capture)
+(setq org-capture-templates
+      '(("t" "Todo" entry (file+headline "~/.org/todo.org" "Tasks")
+         "* TODO %?\n  %i\n  %a")
+        ("j" "Journal entry" plain (file+datetree+prompt "~/.org/journal.org")
+         "%K - %a\n%i\n%?\n")
+        ("n" "Notes" entry (file+headline "~/.org/notes.org" "Notes")
+         "* Notes %?\n %i\n $a")))
 
 (eval-after-load "org"
   '(progn
