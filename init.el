@@ -231,30 +231,142 @@
 (require 'setup-defuns)
 (require 'setup-cheatsheet)
 
+;; exwm
 (require 'exwm)
 (require 'exwm-systemtray)
 (require 'exwm-config)
 (require 'exwm-randr)
-(setq exwm-randr-workspace-output-plist '(0 "eDP1" 1 "HDMI1" 2 "HDMI1" 3 "HDMI1" 4 "HDMI1" 5 "HDMI2" 6 "HDMI2" 7 "HDMI2" 8 "HDMI2"))
-(add-hook 'exwm-randr-screen-change-hook
-          (lambda ()
-            (start-process-shell-command
-             "xrandr" nil "xrandr --output HDMI2 --rotate left --right-of HDMI1 --auto")))
+
+;; Enable 2/3 monitor home setup with orientation
+(defun my-exwm-xrandr-outputs (default &optional first orientation_first second orientation_second)
+  (cond ((and first orientation_first second orientation_second) 
+         (shell-command
+          (concat "xrandr --output " default
+                  " --auto --right-of " first
+                  " --output " first " --auto --primary --rotate " orientation_first
+                  " --right-of " second
+                  " --output " second " --auto --rotate " orientation_second )))
+        ((and first orientation_first) 
+         (shell-command
+          (concat "xrandr --output " first 
+                  " --left-of " default " --auto " 
+                  " --rotate " orientation_first)))
+        ((stringp default)
+         (shell-command
+          (concat "xrandr --output " default 
+                  " --auto --primary")))))
+
+;; Update exwm-randr-workspace-output-plist with two outputs named
+;; 'default' and 'other'.  If the 'other' output is same as 'default'
+;; then all workspaces will be redirected to the 'default' output.
+
+(defun my-exwm-xrandr-config (default &optional first second)
+  (cond ((and default first second)
+         (setq exwm-randr-workspace-output-plist
+               (progn
+                 (setq exwm-workspace-number 10)
+                 (setq result ())
+                 (setq index 1)
+                 (while (<= index 4)
+                   (setq result (append result (list index first)))
+                   (setq index (1+ index)))
+                 (while (<= index 8)
+                   (setq result (append result (list index second)))
+                   (setq index (1+ index)))
+                 (while (<= index exwm-workspace-number)
+                   (setq result (append result (list index default)))
+                   (setq index (1+ index)))
+                 (setq result (list 0 default))
+               result)))
+        ((and default first)
+         (setq exwm-randr-workspace-output-plist 
+               (progn
+                 (setq exwm-workspace-number 10)
+                 (setq result ())
+                 (setq index 1)
+                 (while (< index (/ exwm-workspace-number 2))
+                   (setq result (append result (list index default)))
+                   (setq index (1+ index)))
+                 (while (< index exwm-workspace-number)
+                   (setq result (append result (list index first)))
+                   (setq index (1+ index)))
+               result)))
+        ((stringp default)
+         (setq exwm-randr-workspace-output-plist
+                (progn
+                 (setq exwm-workspace-number 8)
+                 (setq result ())
+                 (setq index 1)
+                 (while (<= index exwm-workspace-number)
+                   (setq result (append result (list index default )))
+                   (setq index (1+ index)))
+                 result)))))
+
+;; Disable xrandr output named 'output'.
+(defun my-exwm-xrandr-off (output)
+  (if output (shell-command (concat "xrandr --output " output " --off"))))
+
+;; Dynamically find the active xrandr outputs and update exwm
+;; workspace configuration and enable xrandr outputs appropriately.
+(defun my-exwm-xrandr-hook (default)
+  (let* ((connected-cmd "xrandr -q|awk '/ connected/ {print $1}'")
+	 (connected (process-lines "bash" "-lc" connected-cmd))
+	 (previous (delete-dups (seq-remove
+				 'integerp
+				 exwm-randr-workspace-output-plist))))
+    (cond ((member "HDMI1" connected)
+           (member "HDMI2" connected)
+	   (progn (my-exwm-xrandr-config default "HDMI1" "HDMI2")
+		  (my-exwm-xrandr-outputs default "HDMI2" "normal" "HDMI1" "left")))
+          ((member "HDMI1" connected)
+	   (progn (my-exwm-xrandr-config default "HDMI1")
+		  (my-exwm-xrandr-outputs default "HDMI1" "left")))
+          ((member "HDMI2" connected)
+	   (progn (my-exwm-xrandr-config default "HDMI2")
+		  (my-exwm-xrandr-outputs default "HDMI2" "normal")))
+          ((member "eDP1" connected)
+	   (progn (my-exwm-xrandr-config default)
+		  (my-exwm-xrandr-outputs default)))
+	  (t (progn (my-exwm-xrandr-config default default)
+ 		    (mapcar 'my-exwm-xrandr-off
+			    (delete default previous)))))))
+
+(setq exwm-randr-screen-change-hook
+      (lambda () (my-exwm-xrandr-hook "eDP1")))
+
 (exwm-randr-enable)
 
 ;; Turn on `display-time-mode' if you don't use an external bar.
 (setq display-time-default-load-average nil)
 (display-time-mode t)
 
+;; disable annoying minibuffer click that is often misclicked while using systray
+(define-key minibuffer-inactive-mode-map [mouse-1] #'ignore)
+
 (fringe-mode 1)
-(ido-mode -1)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
+(setq use-dialog-box nil)
 (setq left-margin-width 0)
 (set-face-background 'fringe "black")
-(setq exwm-workspace-minibuffer-position 'bottom)
-(setq exwm-systemtray-height 16)
+(setq exwm-systemtray-height 13)
 (exwm-systemtray-enable)
 (exwm-config-default)
-(exwm-enable)
+
+(defun apps-at-startup ()
+  "open default apps at startup"
+  (interactive)
+  (progn
+    (exwm-workspace-switch-create 1)
+    (exwm-workspace-switch-create 2)
+    (start-process-shell-command "chromium" nil "/usr/bin/chromium")
+    (exwm-workspace-switch-create 3)
+    (sleep-for 5)
+    (exwm-workspace-switch-create 3)
+    (sane-term)
+    (sleep-for 5)
+
+))
+
+(add-hook 'exwm-init-hook #'apps-at-startup)
