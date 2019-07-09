@@ -106,6 +106,13 @@
 ;; disable annoying minibuffer click that is often misclicked while using systray
 (define-key minibuffer-inactive-mode-map [mouse-1] #'ignore)
 
+(defun switch-to-last-buffer ()
+  "Switch to last open buffer in current window."
+  (interactive)
+  (switch-to-buffer (other-buffer (current-buffer) 1)))
+
+(exwm-input-set-key (kbd "s-<tab>") #'switch-to-last-buffer)
+
 (fringe-mode 1)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
