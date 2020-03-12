@@ -1,5 +1,24 @@
-;; Define package repositories
+;;; init.el --- pid 0 for Emacs
+
+;;; Commentary:
+;;  pid 0 for Emacs  --- init
+
+;;; Code:
+;; Set up load path.(shamelessly stolen from https://github.com/ivo-)
+;; garbage collector hacks :D
+(setq gc-cons-threshold 64000000)
+(add-hook 'after-init-hook #'(lambda ()
+                               ;; restore after startup
+                               (setq gc-cons-threshold 800000)))
+
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+
+(require 'cl)
 (require 'package)
+
+;; Define package repositories
 (add-to-list 'package-archives
              '("elpy" . "http://jorgenschaefer.github.io/packages/") t)
 (add-to-list 'package-archives
@@ -14,330 +33,470 @@
                          ("melpa" . "http://melpa.org/packages/")
                          ("elpy" . "http://jorgenschaefer.github.io/packages/")))
 
+;; keep the installed packages in .emacs.d
+(setq package-user-dir (expand-file-name "elpa" user-emacs-directory))
 (package-initialize)
-
-(when (not package-archive-contents)
+;; update the package metadata is the local cache is missing
+(unless package-archive-contents
   (package-refresh-contents))
 
-(defvar my-packages
-  '(
-    paredit
-
-    cheatsheet
-
-    rainbow-delimiters
-
-    smex
-    
-    exwm
-    
-    dash
-
-    yaml-mode
-
-    vagrant
-
-    vagrant-tramp
-
-    dracula-theme
-
-    lua-mode
-
-    elpy
-
-    pyenv-mode
-
-    emamux
-
-    emms
-
-    helm
-
-    racket-mode
-    
-    tagedit
-
-    slime
-
-    multiple-cursors
-
-    ace-window
-
-    markdown-preview-mode
-
-    vagrant
-
-    vagrant-tramp
-
-    markdown-mode
-
-    websocket
-
-    org-bullets
-
-    multi-term
-    
-    powerline
-
-    flycheck
-
-    free-keys
-    
-    google-translate
-
-    magit
-
-    ;;magithub
-
-    github-clone
-
-    git-auto-commit-mode
-
-    json-mode
-
-    ;; ido-ubiquitous
-    ;; persp-mode
-
-    powerline
-
-    ag
-
-    nlinum
-    
-    ))
-
-(dolist (p my-packages)
-  (when (not (package-installed-p p))
-    (package-install p)))
-
-;; start emacsclient maximized
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
-
-;; emms
-(require 'emms-setup)
-(emms-standard)
-(emms-default-players)
-
-;; emamux
-(require 'emamux)
-
-;; yaml (salt)
-(require 'yaml-mode)
-(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
-(add-to-list 'auto-mode-alist '("\\.sls\\'" . yaml-mode))
-
-;; powerline
-(require 'powerline)
-(powerline-default-theme)
-
-;; rainbow-delimiters
-(require 'rainbow-delimiters)
-
-;; google-translate.el
-(require 'google-translate)
-(require 'google-translate-smooth-ui)
-
-;; magithub
-;;(require 'magithub)
-;;(magithub-feature-autoinject t)
-
-;; Add a directory to our load path so that when you `load` things
-;; below, Emacs knows where to look for the corresponding file.
-(add-to-list 'load-path "~/.emacs.d/customizations")
-
-;; Sets up exec-path-from-shell so that Emacs will use the correct
-;; environment variables
-(load "shell-integration.el")
-
-;; These customizations make it easier for you to navigate files,
-;; switch buffers, and choose options from the minibuffer.
-(load "navigation.el")
-
-
-
-;; These customizations make editing a bit nicer.
-(load "editing.el")
-
-;; Hard-to-categorize customizations
-(load "misc.el")
-
-;; For editing lisps
-(load "elisp-editing.el")
-
-;; Custom exec-path
-(add-to-list 'exec-path "~/.bin")
-
-(org-babel-do-load-languages 'org-babel-load-languages '((shell . t)))
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-
-;; multi-term
-(setq multi-term-program "/usr/bin/zsh")
-
-;; tramp
-(setq tramp-default-method "ssh")
-
-;; elpy
-(elpy-enable)
-
-
-
-;; backup in one place. flat, no tree structure
-(setq backup-directory-alist '(("" . "~/.emacs.d/emacs-backup")))
-(setq auto-save-file-name-transforms
-          `((".*" ,"~/.emacs.d/emacs-backup")))
-
-;; org-mode
-(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-(setq org-directory "~/.org" )
-(setq org-agenda-files '("~/.org"))
-(setq org-default-notes-file (concat org-directory "/notes.org"))
-(setq org-confirm-babel-evaluate nil)
-(setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "chromium")
-(defun org-babel-tangle-block()
-  (interactive)
-  (let ((current-prefix-arg '(4)))
-     (call-interactively 'org-babel-tangle)
-))
-
-(eval-after-load "org"
-  '(progn
-     (define-key org-mode-map (kbd "C-c b") 'org-babel-tangle-block)
-))
-
-
-;; git-auto-commit-mode
-;;(require 'git-auto-commit-mode)
-;;(auto load 'git-auto-commit-mode "git-auto-commit-mode")
-;;(setq-default gac-automatically-push-p t)
-
-;; emms
-(require 'emms-setup)
-(emms-standard)
-(emms-default-players)
-
-(require 'powerline) 
-(powerline-default-theme) 
-
-;; yaml
-(require 'yaml-mode)
-(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
-(add-to-list 'auto-mode-alist '("\\.sls\\'" . yaml-mode))
-
-;; org-wunderlist
-;; (require 'org-wunderlist)
-;; (setq org-wunderlist-client-id "125188bc7590560a9328"
-;;       org-wunderlist-token "858656c6a5ddccc6a34f230381b360392b01e76391006ef6e9c38d4d5282"
-;;       org-wunderlist-file  "~/.org/Wunderlist.org"
-;;       org-wunderlist-dir "~/.org/org-wunderlist/")
-
-;; org-capture
-(setq org-directory "~/.org/")
-(setq org-default-notes-file (concat org-directory "notes"))
-(define-key global-map (kbd "M-N") 'org-capture)
-(setq org-capture-templates
-      '(("t" "Todo" entry (file+headline "~/.org/todo.org" "Tasks")
-         "* TODO %?\n  %i\n  %a")
-        ("j" "Journal entry" plain (file+datetree+prompt "~/.org/journal.org")
-         "%K - %a\n%i\n%?\n")
-        ("n" "Notes" entry (file+headline "~/.org/notes.org" "Notes")
-         "* Notes %?\n %i\n $a")))
-
-
-;; sudo-edit
-(defun sudo-edit (&optional arg)
-  "Edit currently visited file as root.
-
-With a prefix ARG prompt for a file to visit.
-Will also prompt for a file to visit if current
-buffer is not visiting a file."
-  (interactive "P")
-  (if (or arg (not buffer-file-name))
-      (find-file (concat "/sudo:root@localhost:"
-                         (ido-read-file-name "Find file(as root): ")))
-    (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
-
-;; Flycheck global mode
-;; (add-hook 'after-init-hook #'global-flycheck-mode)
-
-;; google-translate.el
-(require 'google-translate-smooth-ui)
-(global-set-key "\C-ct" 'google-translate-smooth-translate)
-
-(put 'narrow-to-region 'disabled nil)
-;; enable globally pyenv-mode
-(add-to-list 'exec-path "~/.pyenv/shims")
-(setenv "WORKON_HOME" "~/.pyenv/versions/")
-(pyenv-mode)
-
-;; enable helm
-;; (helm-mode 1)
-
-;; transparency
-(set-frame-parameter (selected-frame) 'alpha '(85 . 50))
-(add-to-list 'default-frame-alist '(alpha . (85 . 50)))
-
-;; ace-window
-(setq aw-scope 'frame)
-(setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
-
-;; gpg
-(require 'epa-file)
-(epa-file-enable)
-(setq epg-gpg-program "gpg2")
-(setenv "GPG_AGENT_INFO" nil)
-
-
-;; Set up load path.(shamelessly stolen from https://github.com/ivo-)
-(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+
+;; load use-package
+(progn ; `use-package'
+  ;;(setq use-package-always-defer t)
+  (setq use-package-minimum-reported-time 0)
+  (setq use-package-verbose t)
+  (setq use-package-compute-statistics t)
+  (require 'use-package))
+
+;; el get
+(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+
+(unless (require 'el-get nil t)
+  (with-current-buffer
+      (url-retrieve-synchronously
+       "https://github.com/dimitri/el-get/raw/master/el-get-install.el")
+    (end-of-buffer)
+    (eval-print-last-sexp)))
+
+;; now either el-get is `require'd already, or have been `load'ed by the
+;; el-get installer.
+
+(setq
+ my:el-get-packages
+ '(el-get				; el-get is self-hosting
+   dired+))
+
+(setq my:el-get-packages
+      (append
+       my:el-get-packages
+       (loop for src in el-get-sources collect (el-get-source-name src))))
+
+;; install new packages and init already installed packages
+(el-get 'sync my:el-get-packages)
+
+;; stuff needed here
+;; Free personal key bindings space.
+(global-unset-key (kbd "M-j"))
+
+;; =============================================================================
+;; disabled packages
+(use-package exwm
+  :disabled t)
+
+(use-package emamux
+  :disabled t)
+
+(use-package dash
+  :disabled t)
+
+(use-package vagrant
+  :disabled t)
+
+(use-package vagrant-tramp
+  :disabled t)
+
+(use-package emms
+  :disabled t)
+
+(use-package helm
+  :disabled t)
+
+(use-package racket-mode
+  :disabled t)
+
+;; ob-tmux
+(use-package ob-tmux
+  ;; Install package automatically (optional)
+  :disabled t
+  :ensure t
+  :custom
+  (org-babel-default-header-args:tmux
+   '((:results . "silent")         ;
+     (:session . "default")        ; The default tmux session to send code to
+     (:socket  . "/tmp/shared-session.sock")))            ; The default tmux socket to communicate with
+  ;; The tmux sessions are prefixed with the following string.
+  ;; You can customize this if you like.
+  (org-babel-tmux-session-prefix "ob-")
+  ;; The terminal that will be used.
+  ;; You can also customize the options passed to the terminal.
+  ;; The default terminal is "gnome-terminal" with options "--".
+  ;; (org-babel-tmux-terminal "")
+  ;; (org-babel-tmux-terminal-opts '("-T" "ob-tmux" "-e"))
+  ;; (org-babel-tmux-terminal-opts '("--"))
+  ;; Finally, if your tmux is not in your $PATH for whatever reason, you
+  ;; may set the path to the tmux binary as follows:
+  (org-babel-tmux-location "/usr/local/bin/tmux"))
+
+;; =============================================================================
+
+;; Better search and replace
+(use-package anzu
+  :ensure t
+  :config
+  (global-anzu-mode))
+
+(use-package ace-window
+  :ensure t
+  :init
+  (setq aw-scope 'frame)
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+
+;; Show vertical indentation lines
+(use-package indent-guide
+  :ensure t
+  :config
+  (indent-guide-mode +1)
+  (add-hook 'prog-mode-hook 'indent-guide-mode))
+
+;; Show available keybindings on inactivity
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode +1))
+
+
+
+;; Easy navigation without modifier keys
+(use-package god-mode
+  :ensure t
+  ;;:bind ("M-<return>" . god-local-mode)
+  :config
+  (defun god-mode-update-cursor () (setq cursor-type (if (or god-local-mode buffer-read-only) 'hbar 'box)))
+  (add-hook 'god-mode-enabled-hook 'god-mode-update-cursor)
+  (add-hook 'god-mode-disabled-hook 'god-mode-update-cursor))
+
+;; Save buffer when they loose focus
+(use-package super-save
+  :ensure t
+  :diminish t
+  :config
+  (super-save-mode +1))
+
+;; google-translate
+(use-package google-translate
+  :ensure t
+  :bind (("M-j t p"   . google-translate-at-point)
+         ("M-j T p"   . google-translate-at-point-reverse)
+         ("M-j M-t" . google-translate-at-point)
+         ("M-j M-T" . google-translate-at-point-reverse)
+         ("M-j t q" . google-translate-query-translate)
+         ("M-j T q" . google-translate-query-translate-reverse))
+  :init
+  (setq google-translate-default-source-language "en")
+  (setq google-translate-default-target-language "bg"))
+
+;; modes are minor modes with no modeline display
+(use-package diminish
+  :ensure t
+  :init
+  (progn
+    (diminish 'git-gutter-mode)
+    (diminish 'flycheck-mode)
+    (diminish 'paredit-mode)
+    (diminish 'which-key-mode)
+    (diminish 'flyspell-mode)))
+
+;;  uniquify overrides Emacs’ default mechanism for making buffer names unique
+(use-package uniquify
+  :config
+  (setq uniquify-buffer-name-style 'forward)
+  (setq uniquify-separator "/")
+  ;; rename after killing uniquified
+  (setq uniquify-after-kill-buffer-p t)
+  ;; don't muck with special buffers
+  (setq uniquify-ignore-buffers-re "^\\*"))
+
+;; ispell
+(use-package ispell
+  :bind (("M-j s"   . 'ispell-word)
+         ("M-j M-s" . 'ispell-word))
+  :config
+  (setq-default ispell-program-name "aspell")
+  (when (executable-find ispell-program-name)
+    (add-hook 'text-mode-hook #'flyspell-mode)
+    (add-hook 'prog-mode-hook #'flyspell-prog-mode)))
+
+;; all-the-icons
+(use-package all-the-icons
+  :ensure t
+  :init
+  (require 'all-the-icons))
+
+
+(use-package powerline
+  :ensure t
+  ;; :init
+  ;; (require 'powerline)
+  ;; :config
+  ;; (powerline-default-theme)
+)
+
+;; spaceline
+(use-package spaceline
+  ;; :after powerline
+  :ensure t
+  ;; :init
+  ;; (require 'spaceline-config)
+  ;; :config
+  ;; (spaceline-spacemacs-theme)
+  ;; (setq-default mode-line-format '("%e" (:eval (spaceline-ml-ati))))
+)
+
+
+
+;; keychain-environment
+(use-package keychain-environment
+ :ensure t
+ :config (keychain-refresh-environment))
+
+
+(use-package exec-path-from-shell
+  :ensure t
+  :config
+  (exec-path-from-shell-initialize))
+
+(use-package perspective
+  :ensure t
+  :commands persp-mode
+  :config)
+
+(use-package toml-mode
+  :ensure t)
+
+(use-package dockerfile-mode
+  :ensure t)
+
+(use-package shell-pop
+  :ensure t)
+
+(use-package elscreen
+  :ensure t
+  :defer t
+;;  :init (elscreen-start)
+)
+
+(use-package dumb-jump
+  :ensure t)
+
+(use-package auto-complete
+  :ensure t
+  :mode ("\\.go\\'" . auto-complete-mode))
+
+(use-package go-autocomplete
+  :ensure t)
+
+;; go-mode 
+(use-package go-mode
+  :ensure t
+  :mode ("\\.go\\'" . auto-complete-mode)
+  :config
+  (exec-path-from-shell-copy-env "GOPATH")
+  ;; (add-hook 'before-save-hook 'gofmt-before-save)
+  (with-eval-after-load 'go-mode
+    (require 'go-autocomplete)))
+
+(use-package ob-go
+  :ensure t)
+
+(use-package popwin
+  :ensure t
+  :config
+  (progn
+    (setq popwin:special-display-config nil)
+    (push '("*Backtrace*"
+            :dedicated t :position bottom :stick t :noselect nil :height 0.33)
+          popwin:special-display-config)
+    (push '("*compilation*"
+            :dedicated t :position bottom :stick t :noselect t   :height 0.2)
+          popwin:special-display-config)
+    (push '("*Compile-Log*"
+            :dedicated t :position bottom :stick t :noselect t   :height 0.33)
+          popwin:special-display-config)
+    (push '("*Help*"
+            :dedicated t :position bottom :stick t :noselect nil :height 0.33)
+          popwin:special-display-config)
+    (push '("*Shell Command Output*"
+            :dedicated t :position bottom :stick t :noselect nil :height 0.33)
+          popwin:special-display-config)
+    (push '("*undo-tree*"
+            :dedicated t :position bottom :stick t :noselect nil :height 0.33)
+          popwin:special-display-config)
+    (push '("*Warnings*"
+            :dedicated t :position bottom :stick t :noselect nil :height 0.33)
+          popwin:special-display-config)
+    (push '("*Gofmt Errors*"
+            :dedicated t :position bottom :stick t :noselect nil :height 0.33)
+          popwin:special-display-config)
+    (push '("^\\*Man .*\\*$"
+            :regexp t    :position bottom :stick t :noselect nil :height 0.33)
+            popwin:special-display-config)
+    (push '("^\\*ag\ search .*\\*$"
+            :regexp t    :position bottom :stick t :noselect nil :height 0.33)
+            popwin:special-display-config)
+    (popwin-mode t)))
+
+(use-package smooth-scrolling
+  :ensure t
+  :config
+    (setq scroll-margin 1
+      scroll-conservatively 0
+      scroll-up-aggressively 0.01
+      scroll-down-aggressively 0.01)
+    (setq-default scroll-up-aggressively 0.01
+      scroll-down-aggressively 0.01))
+
+;; Tree-based directory browsing
+(use-package dired-subtree
+  :config
+  (bind-keys :map dired-mode-map
+             ("i" . dired-subtree-insert)
+             (";" . dired-subtree-remove)))
+
+
+
+(use-package yaml-mode
+  :mode 
+  ("\\.yml\\" . yaml-mode)
+  ("\\.yaml\\" . yaml-mode)
+  ("\\.sls\\" . yaml-mode))
+
+(use-package json-mode
+  :mode 
+  ("\\.json\\" . yaml-mode))
+
+(use-package markdown-mode
+  :mode 
+  ("\\.md\\" . markdown-mode))
+
+(use-package markdown-preview-mode
+  :defer t)
+
+(use-package google-translate
+  :defer t)
+
+(use-package google-translate-smooth-ui
+  :bind
+  ("C-c t" . google-translate-smooth-translate))
+
+(use-package gitlab-ci-mode
+  :mode 
+  ("\\.gitlab-ci.*\\'" . gitlab-ci-mode))
+
+(use-package git-auto-commit-mode
+  :defer t)
+
+(use-package github-clone
+  :defer t)
+
+(use-package ag
+  :defer t)
+
+(use-package free-keys
+  :defer t)
+
+(use-package magit
+  :defer t)
+
+(use-package elpy
+  :mode ("\\.py\\'" . elpy-mode)
+  :config (elpy-enable))
+
+(use-package pyenv
+  :mode ("\\.py\\'" . pyenv-mode)
+  :config
+  (add-to-list 'exec-path "~/.pyenv/shims")
+  (setenv "WORKON_HOME" "~/.pyenv/versions/")
+  (pyenv-mode))
+
+(use-package multi-term
+  :defer t
+  :config
+  (setq multi-term-program "/bin/zsh"))
+
+(use-package nlinum
+  :defer t)
+
+(use-package flycheck
+  :hook
+  (add-hook 'after-init-hook #'global-flycheck-mode))
+
+(use-package lua-mode
+  :defer t)
+
+(use-package multiple-cursors
+  :defer t)
+
+(use-package slime
+  :defer t)
+
+(use-package org-bullets
+  :ensure t
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+(use-package websocket
+  :ensure t)
+
+(use-package fzf
+  :ensure t)
+
+(use-package paredit
+  :ensure t
+  :config
+  (autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
+  (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
+  (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
+  (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
+  (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
+  (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+  (add-hook 'scheme-mode-hook           #'enable-paredit-mode))
+
+(use-package rainbow-delimiters
+  :ensure t)
+
+
+(use-package browse-kill-ring
+  ;;:defer 5
+  :commands browse-kill-ring)
+
+(use-package browse-kill-ring+
+  :after browse-kill-ring
+  :config (browse-kill-ring-default-keybindings))
+
+(use-package dracula-theme
+  :ensure t
+  :config
+  (load-theme 'dracula t))
+
+;; spaceline-all-the-icons
+(use-package spaceline-all-the-icons
+  :after spaceline
+  :ensure t
+  :config (spaceline-all-the-icons-theme))
+
+
+;; all-the-icons-dired
+(use-package all-the-icons-dired
+  :ensure t
+  :config
+  (add-hook 'dired-mode-hook
+            (lambda ()
+              (all-the-icons-dired-mode 1)
+              )))
+
+(add-hook 'org-mode-hook 'turn-on-auto-fill)
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+
+;; (provide 'setup-packages)
+
+
+;; (require 'setup-packages)
 (require 'setup-settings)
-(require 'setup-packages)
 (require 'setup-keybindings)
 (require 'setup-defuns)
 (require 'setup-cheatsheet)
 
-;; These customizations change the way emacs looks and disable/enable
-;; some user interface elements
-(load "ui.el")
-
-;; reuse dired buffer
-(diredp-toggle-find-file-reuse-dir 1)
-
-;; start emacs server
-(server-start)
-
-;;
-(require 'exwm)
-(require 'exwm-systemtray)
-(require 'exwm-config)
-(require 'exwm-randr)
-(setq exwm-randr-workspace-output-plist '(0 "eDP1" 1 "HDMI1" 2 "HDMI1" 3 "HDMI1" 4 "HDMI1" 5 "HDMI2" 6 "HDMI2" 7 "HDMI2" 8 "HDMI2"))
-(add-hook 'exwm-randr-screen-change-hook
-          (lambda ()
-            (start-process-shell-command
-             "xrandr" nil "xrandr --output HDMI2 --rotate left --right-of HDMI1 --auto")))
-(exwm-randr-enable)
-
-;; Turn on `display-time-mode' if you don't use an external bar.
-(setq display-time-default-load-average nil)
-(display-time-mode t)
-
-(fringe-mode 1)
-(ido-mode -1)
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-(setq left-margin-width 0)
-(set-face-background 'fringe "black")
-(setq exwm-workspace-minibuffer-position 'bottom)
-(setq exwm-systemtray-height 16)
-(exwm-systemtray-enable)
-(exwm-config-default)
-(exwm-enable)
+;;; init.el ends here

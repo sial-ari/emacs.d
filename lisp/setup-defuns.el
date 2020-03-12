@@ -157,7 +157,7 @@ file of a buffer in an external program."
   (unless (string-match-p "^ " (buffer-name))
     (rename-buffer (concat " " (buffer-name)))))
 
-(defun eval-and-replace ()
+(defun eval-and-replace ()kkkk
   "Replace the preceding sexp with its value."
   (interactive)
   (backward-kill-sexp)
@@ -281,5 +281,63 @@ file of a buffer in an external program."
 Repeated invocations toggle between the two most recently open buffers."
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer) 1)))
+
+(defun term-send-kill-line ()
+  "Kill line in multi-term mode with the possibility to paste it like in a normal shell."
+  (interactive)
+  (kill-line)
+  (term-send-raw-string "\C-k"))
+
+(defun term-send-tmux-prefix ()
+  "Send raw prefix key for tmux inside multi-term"
+  (interactive)
+  (term-send-raw-string "^[a"))
+
+(add-hook 'yaml-mode-hook
+          (lambda ()
+            (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
+
+(add-hook 'term-mode-hook
+          (lambda ()
+            (define-key term-raw-map (kbd "C-y") 'term-paste)))
+
+;; Terminal buffer configuration.
+(add-hook 'term-mode-hook 'my-term-mode-hook)
+(defun my-term-mode-hook ()
+   "Bug: https://debbugs.gnu.org/cgi/bugreport.cgi?bug=20611."
+   (setq bidi-paragraph-direction 'left-to-right))
+
+(defun sial/local-term ()
+  "Run local term."
+  (interactive)
+  (ansi-term "/bin/zsh" (system-name)))
+
+;; enable cua and transient mark modes in term-line-mode
+(defadvice term-line-mode (after term-line-mode-fixes ())
+  (set (make-local-variable 'cua-mode) t)
+  (set (make-local-variable 'transient-mark-mode) t))
+(ad-activate 'term-line-mode)
+
+;; disable cua and transient mark modes in term-char-mode
+(defadvice term-char-mode (after term-char-mode-fixes ())
+  (set (make-local-variable 'cua-mode) nil)
+  (set (make-local-variable 'transient-mark-mode) nil))
+(ad-activate 'term-char-mode)
+
+;; sudo-edit
+(defun sudo-edit (&optional arg)
+  "Edit currently visited file as root.
+
+With a prefix ARG prompt for a file to visit.
+Will also prompt for a file to visit if current
+buffer is not visiting a file."
+  (interactive "P")
+  (if (or arg (not buffer-file-name))
+      (find-file (concat "/sudo:root@localhost:"
+                         (ido-read-file-name "Find file(as root): ")))
+    (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
+
+(put 'narrow-to-region 'disabled nil)
+
 
 (provide 'setup-defuns)
