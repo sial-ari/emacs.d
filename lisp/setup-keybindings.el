@@ -118,6 +118,7 @@
 ;;             (add-to-list 'term-bind-key-alist '("M-]" . multi-term-next))))
 
 ;; dired
+(define-key dired-mode-map (kbd "C-p") nil)
 (define-key dired-mode-map (kbd "C-p") 'diredp-previous-line)
 
 (provide 'setup-keybindings)

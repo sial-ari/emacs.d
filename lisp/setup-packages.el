@@ -50,7 +50,7 @@
 (setq
  my:el-get-packages
  '(el-get				; el-get is self-hosting
-   dired+))
+         ))
 
 (setq my:el-get-packages
       (append
@@ -121,6 +121,15 @@
   :config
   (global-anzu-mode))
 
+(use-package aria2
+  :ensure t)
+
+(use-package clipmon
+  :ensure t
+  :defer 0.1
+  :config
+  (clipmon-mode))
+
 (use-package ace-window
   :ensure t
   :init
@@ -140,7 +149,11 @@
   :config
   (which-key-mode +1))
 
+(use-package quelpa
+  :ensure t)
 
+(use-package quelpa-use-package
+  :ensure t)
 
 ;; Easy navigation without modifier keys
 (use-package god-mode
@@ -228,14 +241,6 @@
   ;; (setq-default mode-line-format '("%e" (:eval (spaceline-ml-ati))))
 )
 
-
-
-;; keychain-environment
-(use-package keychain-environment
- :ensure t
- :config (keychain-refresh-environment))
-
-
 (use-package exec-path-from-shell
   :ensure t
   :config
@@ -269,6 +274,9 @@
   :mode ("\\.go\\'" . auto-complete-mode))
 
 (use-package go-autocomplete
+  :ensure t)
+
+(use-package ac-emoji
   :ensure t)
 
 ;; go-mode 
@@ -331,6 +339,10 @@
     (setq-default scroll-up-aggressively 0.01
       scroll-down-aggressively 0.01))
 
+(use-package dired+
+  :quelpa (dired+ :fetcher github :repo "emacsmirror/dired-plus")
+  :config (diredp-toggle-find-file-reuse-dir 1))
+
 ;; Tree-based directory browsing
 (use-package dired-subtree
   :config
@@ -342,17 +354,17 @@
 
 (use-package yaml-mode
   :mode 
-  ("\\.yml\\" . yaml-mode)
-  ("\\.yaml\\" . yaml-mode)
-  ("\\.sls\\" . yaml-mode))
+  ("\\.yml\\'" . yaml-mode)
+  ("\\.yaml\\'" . yaml-mode)
+  ("\\.sls\\'" . yaml-mode))
 
 (use-package json-mode
   :mode 
-  ("\\.json\\" . yaml-mode))
+  ("\\.json\\'" . yaml-mode))
 
 (use-package markdown-mode
   :mode 
-  ("\\.md\\" . markdown-mode))
+  ("\\.md\\'" . markdown-mode))
 
 (use-package markdown-preview-mode
   :defer t)
@@ -426,6 +438,33 @@
 (use-package fzf
   :ensure t)
 
+(use-package edwina
+  :ensure t
+  :config
+  (add-hook 'after-init-hook #'edwina-mode))
+
+(use-package restclient
+  :ensure t
+  :mode
+  ("\\.http\\'" . restclient-mode))
+
+(use-package restclient-test
+  :ensure t
+  :hook
+  (restclient-mode-hook . restclient-test-mode))
+
+(use-package ob-restclient
+  :ensure t
+  :after org restclient
+  :init
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((restclient . t))))
+
+(use-package kubernetes
+  :ensure t
+  :commands (kubernetes-overview))
+
 (use-package paredit
   :ensure t
   :config
@@ -441,13 +480,13 @@
   :ensure t)
 
 
-(use-package browse-kill-ring
-  ;;:defer 5
-  :commands browse-kill-ring)
+;; (use-package browse-kill-ring
+;;   ;;:defer 5
+;;   :commands browse-kill-ring)
 
-(use-package browse-kill-ring+
-  :after browse-kill-ring
-  :config (browse-kill-ring-default-keybindings))
+;; (use-package browse-kill-ring+
+;;   :after browse-kill-ring
+;;   :config (browse-kill-ring-default-keybindings))
 
 (use-package dracula-theme
   :ensure t
