@@ -1,28 +1,28 @@
-;; no splash
-(setq inhibit-splash-screen t)
+;; ;; no splash
+;; (setq inhibit-splash-screen t)
 
-;; start emacsclient maximized
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
+;; ;; start emacsclient maximized
+;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
-;; transparency
-(set-frame-parameter (selected-frame) 'alpha '(85 . 50))
-(add-to-list 'default-frame-alist '(alpha . (90 . 50)))
+;; ;; transparency
+;; (set-frame-parameter (selected-frame) 'alpha '(85 . 50))
+;; (add-to-list 'default-frame-alist '(alpha . (90 . 50)))
 
-;; trust me
-(setq disabled-command-function nil)
-(defalias 'yes-or-no-p 'y-or-n-p)
+;; ;; trust me
+;; (setq disabled-command-function nil)
+;; (defalias 'yes-or-no-p 'y-or-n-p)
 
-;; decrease font size
-(set-face-attribute 'default nil :height 110)
+;; ;; decrease font size
+;; (set-face-attribute 'default nil :height 110)
 
-;; use office code pro font
-(add-to-list 'default-frame-alist '(font . "Office Code Pro-9" ))
-(set-face-attribute 'default t :font "Office Code Pro-9" )
+;; ;; use office code pro font
+;; (add-to-list 'default-frame-alist '(font . "Office Code Pro-9" ))
+;; (set-face-attribute 'default t :font "Office Code Pro-9" )
 
-(setq redisplay-dont-pause t)
+;; (setq redisplay-dont-pause t)
 
-;; Lines should be 80 chars.
-(setq-default fill-column 80)
+;; ;; Lines should be 80 chars.
+;; (setq-default fill-column 80)
 
 ;; gpg
 (require 'epa-file)
@@ -52,14 +52,14 @@
 
 ;; browser ??
 (setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "chromium")
+      browse-url-generic-program "open -a 'Google Chrome'")
 
 ;; language
 (set-language-environment "UTF-8")
 
+(setq help-window-select t)
 ;; org-mode
 (setq org-src-tab-acts-natively t)
-(setq help-window-select t)
 (setq org-edit-src-content-indentation 0
       org-src-tab-acts-natively t
       org-src-fontify-natively t
@@ -71,6 +71,19 @@
 
 ;; org-capture
 (setq org-directory "~/.org/")
+(setq org-agenda-files '("~/.org"))
+(setq org-default-notes-file (concat org-directory "/notes.org"))
+(setq org-confirm-babel-evaluate nil)
+(defun org-babel-tangle-block()
+  (interactive)
+  (let ((current-prefix-arg '(4)))
+     (call-interactively 'org-babel-tangle)
+))
+(setq org-src-fontify-natively t)
+(eval-after-load "org"
+  '(progn
+     (define-key org-mode-map (kbd "C-c b") 'org-babel-tangle-block)
+))
 (setq org-default-notes-file (concat org-directory "notes"))
 (define-key global-map (kbd "M-N") 'org-capture)
 (setq org-capture-templates
@@ -94,20 +107,6 @@
                                                          (emacs-lisp . t)
                                                          (go . t)))
 
-(setq org-directory "~/.org" )
-(setq org-agenda-files '("~/.org"))
-(setq org-default-notes-file (concat org-directory "/notes.org"))
-(setq org-confirm-babel-evaluate nil)
-(defun org-babel-tangle-block()
-  (interactive)
-  (let ((current-prefix-arg '(4)))
-     (call-interactively 'org-babel-tangle)
-))
-(setq org-src-fontify-natively t)
-(eval-after-load "org"
-  '(progn
-     (define-key org-mode-map (kbd "C-c b") 'org-babel-tangle-block)
-))
 
 ;; misc
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
@@ -121,7 +120,7 @@
 (setq require-final-newline nil)
 
 ;; reuse dired buffer
-(diredp-toggle-find-file-reuse-dir 1)
+
 
 ;; Turn off the menu bar at the top of each frame because it's distracting
 (menu-bar-mode -1)
@@ -192,13 +191,6 @@
 
 ;; Highlight current line
 (global-hl-line-mode 1)
-
-;; Interactive search key bindings. By default, C-s runs
-;; isearch-forward, so this swaps the bindings.
-(global-set-key (kbd "C-s") 'isearch-forward-regexp)
-(global-set-key (kbd "C-r") 'isearch-backward-regexp)
-(global-set-key (kbd "C-M-s") 'isearch-forward)
-(global-set-key (kbd "C-M-r") 'isearch-backward)
 
 ;; Don't use hard tabs
 (setq-default indent-tabs-mode nil)

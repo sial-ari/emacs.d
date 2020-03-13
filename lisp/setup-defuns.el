@@ -344,4 +344,17 @@ buffer is not visiting a file."
 
 (put 'narrow-to-region 'disabled nil)
 
+;; we want dired not not make always a new buffer if visiting a directory
+;; but using only one dired buffer for all directories.
+(defadvice dired-advertised-find-file (around dired-subst-directory activate)
+  "Replace current buffer if file is a directory."
+  (interactive)
+  (let ((orig (current-buffer))
+        (filename (dired-get-filename)))
+    ad-do-it
+    (when (and (file-directory-p filename)
+               (not (eq (current-buffer) orig)))
+      (kill-buffer orig))))
+
+
 (provide 'setup-defuns)
