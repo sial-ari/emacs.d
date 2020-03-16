@@ -37,7 +37,6 @@
     elpy
     pyenv-mode
     emamux
-    emms
     helm
     racket-mode
     tagedit
@@ -66,12 +65,6 @@
 (dolist (p my-packages)
   (when (not (package-installed-p p))
     (package-install p)))
-
-
-;; emms
-;; (require 'emms-setup)
-;; (emms-standard)
-;; (emms-default-players)
 
 ;; emamux
 (require 'emamux)
