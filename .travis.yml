@@ -23,7 +23,7 @@ before_install:
     fi
 
 install:
-  - mv -f ../.emacs.d ~/.emacs.d
+  - mv -f ../emacs.d ~/.emacs.d
   - curl -fsSkL https://gist.github.com/rejeep/ebcd57c3af83b049833b/raw > x.sh && source ./x.sh
   - evm install $EVM_EMACS --use --skip
 
