@@ -231,182 +231,182 @@
 (require 'setup-defuns)
 (require 'setup-cheatsheet)
 
-;; exwm
-(require 'exwm)
-(require 'exwm-systemtray)
-(require 'exwm-config)
+;; ;; exwm
+;; (require 'exwm)
+;; (require 'exwm-systemtray)
+;; (require 'exwm-config)
 
-;; the big comment
-;; (require 'exwm-randr)
+;; ;; the big comment
+;; ;; (require 'exwm-randr)
 
-;; Enable 2/3 monitor home setup with orientation
-;; (defun my-exwm-xrandr-outputs (default &optional first orientation_first second orientation_second)
-;;   (cond ((and first orientation_first second orientation_second) 
-;;          (shell-command
-;;           (concat "xrandr --output " default
-;;                   " --off --output " first " --auto --primary --rotate " orientation_first
-;;                   " --right-of " second
-;;                   " --output " second " --auto --rotate " orientation_second )))
-;;         ((and first orientation_first) 
-;;          (shell-command
-;;           (concat "xrandr --output " first 
-;;                   " --left-of " default " --auto " 
-;;                   " --rotate " orientation_first)))
-;;         ((stringp default)
-;;          (shell-command
-;;           (concat "xrandr --output " default 
-;;                   " --auto --primary")))))
+;; ;; Enable 2/3 monitor home setup with orientation
+;; ;; (defun my-exwm-xrandr-outputs (default &optional first orientation_first second orientation_second)
+;; ;;   (cond ((and first orientation_first second orientation_second) 
+;; ;;          (shell-command
+;; ;;           (concat "xrandr --output " default
+;; ;;                   " --off --output " first " --auto --primary --rotate " orientation_first
+;; ;;                   " --right-of " second
+;; ;;                   " --output " second " --auto --rotate " orientation_second )))
+;; ;;         ((and first orientation_first) 
+;; ;;          (shell-command
+;; ;;           (concat "xrandr --output " first 
+;; ;;                   " --left-of " default " --auto " 
+;; ;;                   " --rotate " orientation_first)))
+;; ;;         ((stringp default)
+;; ;;          (shell-command
+;; ;;           (concat "xrandr --output " default 
+;; ;;                   " --auto --primary")))))
 
-;; Update exwm-randr-workspace-output-plist with two outputs named
-;; 'default' and 'other'.  If the 'other' output is same as 'default'
-;; then all workspaces will be redirected to the 'default' output.
+;; ;; Update exwm-randr-workspace-output-plist with two outputs named
+;; ;; 'default' and 'other'.  If the 'other' output is same as 'default'
+;; ;; then all workspaces will be redirected to the 'default' output.
 
-;; (defun my-exwm-xrandr-config-bak (default &optional first-mon second-mon)
-;;   (cond ((and default first-mon second-mon)
-;;          (setq exwm-randr-workspace-output-plist '(0 "HDMI1" 1 "HDMI2" 2 "HDMI2" 3 "HDMI2" 4 "HDMI2" 5 "HDMI2" 6 "HDMI1" 7 "HDMI1" 8 "HDMI1" 9 "HDMI1")))
-;;         ((and default first-mon)
-;;          (setq exwm-randr-workspace-output-plist '(0 "eDP1" 1 "HDMI1" 2 "HDMI1" 3 "HDMI1" 4 "HDMI1" 5 "HDMI1" 6 "eDP1" 7 "eDP1" 8 "eDP1" 9 "eDP1")))
-;;         ((stringp default)
-;;          (setq exwm-randr-workspace-output-plist
-;;                 (progn
-;;                  (setq exwm-workspace-number 8)
-;;                  (setq result ())
-;;                  (setq index 1)
-;;                  (while (<= index exwm-workspace-number)
-;;                    (setq result (append result (list index (concat "\"" default "\"") )))
-;;                    (setq index (1+ index)))
-;;                  (exwm--log "cond 3 exwm-randr-workspace-output-plist: %s"
-;;                             result))
-;;                  result))))
+;; ;; (defun my-exwm-xrandr-config-bak (default &optional first-mon second-mon)
+;; ;;   (cond ((and default first-mon second-mon)
+;; ;;          (setq exwm-randr-workspace-output-plist '(0 "HDMI1" 1 "HDMI2" 2 "HDMI2" 3 "HDMI2" 4 "HDMI2" 5 "HDMI2" 6 "HDMI1" 7 "HDMI1" 8 "HDMI1" 9 "HDMI1")))
+;; ;;         ((and default first-mon)
+;; ;;          (setq exwm-randr-workspace-output-plist '(0 "eDP1" 1 "HDMI1" 2 "HDMI1" 3 "HDMI1" 4 "HDMI1" 5 "HDMI1" 6 "eDP1" 7 "eDP1" 8 "eDP1" 9 "eDP1")))
+;; ;;         ((stringp default)
+;; ;;          (setq exwm-randr-workspace-output-plist
+;; ;;                 (progn
+;; ;;                  (setq exwm-workspace-number 8)
+;; ;;                  (setq result ())
+;; ;;                  (setq index 1)
+;; ;;                  (while (<= index exwm-workspace-number)
+;; ;;                    (setq result (append result (list index (concat "\"" default "\"") )))
+;; ;;                    (setq index (1+ index)))
+;; ;;                  (exwm--log "cond 3 exwm-randr-workspace-output-plist: %s"
+;; ;;                             result))
+;; ;;                  result))))
 
-;; (defun my-exwm-xrandr-config (default &optional first second)
-;;   (cond ((and first second)
-;;          (setq exwm-randr-workspace-output-plist
-;;                (progn
-;;                  (setq exwm-worspace-number 9)
-;;                  (setq index 1)
-;;                  (while (<= index 6)
-;;                    (setq result (append result (list index (concat "\"" first "\""))))
-;;                    (setq index (1+ index)))
-;;                  (while (<= index exwm-workspace-number )
-;;                    (setq result (append result (list index (concat "\"" second "\""))))
-;;                    (setq index (1+ index)))
-;;                result)))
-;;         ((stringp first)
-;;          (setq exwm-randr-workspace-output-plist 
-;;                (progn
-;;                  (setq exwm-workspace-number 10)
-;;                  (setq index 1)
-;;                  (while (< index (/ exwm-workspace-number 2))
-;;                    (setq result (append result (list index default)))
-;;                    (setq index (1+ index)))
-;;                  (while (< index exwm-worspace-number)
-;;                    (setq result (append result (list index first)))
-;;                    (setq index (1+ index)))
-;;                result))
-;;         ((stringp default)
-;;          (setq exwm-randr-workspace-output-plist
-;;                (progn
-;;                  (setq exwm-workspace-number 8)
-;;                  (setq index 1)
-;;                  (while (<= exwm-workspace-number)
-;;                    (setq result (append result (list index default )))
-;;                    (setq index (1+ index)))
-;;                  result))))))
+;; ;; (defun my-exwm-xrandr-config (default &optional first second)
+;; ;;   (cond ((and first second)
+;; ;;          (setq exwm-randr-workspace-output-plist
+;; ;;                (progn
+;; ;;                  (setq exwm-worspace-number 9)
+;; ;;                  (setq index 1)
+;; ;;                  (while (<= index 6)
+;; ;;                    (setq result (append result (list index (concat "\"" first "\""))))
+;; ;;                    (setq index (1+ index)))
+;; ;;                  (while (<= index exwm-workspace-number )
+;; ;;                    (setq result (append result (list index (concat "\"" second "\""))))
+;; ;;                    (setq index (1+ index)))
+;; ;;                result)))
+;; ;;         ((stringp first)
+;; ;;          (setq exwm-randr-workspace-output-plist 
+;; ;;                (progn
+;; ;;                  (setq exwm-workspace-number 10)
+;; ;;                  (setq index 1)
+;; ;;                  (while (< index (/ exwm-workspace-number 2))
+;; ;;                    (setq result (append result (list index default)))
+;; ;;                    (setq index (1+ index)))
+;; ;;                  (while (< index exwm-worspace-number)
+;; ;;                    (setq result (append result (list index first)))
+;; ;;                    (setq index (1+ index)))
+;; ;;                result))
+;; ;;         ((stringp default)
+;; ;;          (setq exwm-randr-workspace-output-plist
+;; ;;                (progn
+;; ;;                  (setq exwm-workspace-number 8)
+;; ;;                  (setq index 1)
+;; ;;                  (while (<= exwm-workspace-number)
+;; ;;                    (setq result (append result (list index default )))
+;; ;;                    (setq index (1+ index)))
+;; ;;                  result))))))
 
-;; ;; Disable xrandr output named 'output'.
-;; (defun my-exwm-xrandr-off (output)
-;;   (if output (shell-command (concat "xrandr --output " output " --off"))))
+;; ;; ;; Disable xrandr output named 'output'.
+;; ;; (defun my-exwm-xrandr-off (output)
+;; ;;   (if output (shell-command (concat "xrandr --output " output " --off"))))
 
-;; Dynamically find the active xrandr outputs and update exwm
-;; workspace configuration and enable xrandr outputs appropriately.
-;; (defun my-exwm-xrandr-hook-old (default)
-;;   (let* ((connected-cmd "xrandr -q|awk '/ connected/ {print $1}'")
-;; 	 (connected (process-lines "bash" "-lc" connected-cmd))
-;; 	 (previous (delete-dups (seq-remove
-;; 				 'integerp
-;; 				 exwm-randr-workspace-output-plist))))
-;;     (cond ((member "HDMI1" connected)
-;;            (member "HDMI2" connected)
-;;            (progn (my-exwm-xrandr-config default "HDMI2" "HDMI1")
-;; 		  (my-exwm-xrandr-outputs default "HDMI2" "normal" "HDMI1" "left")
-;;                   (my-exwm-xrandr-off default)
-;;                   (exwm--log "cond 1 connected: %s"
-;;                             connected)
-;;                   (exwm-randr-refresh)))
-;;           ((member "HDMI1" connected)
-;; 	   (progn (my-exwm-xrandr-config default "HDMI1")
-;; 		  (my-exwm-xrandr-outputs default "HDMI1" "left")
-;;                   (my-exwm-xrandr-off "HDMI2")
-;;                   (exwm--log "cond 2 connected: %s"
-;;                              connected)
-;;                   (exwm-randr-refresh)))
-;;           ((member "HDMI2" connected)
-;; 	   (progn (my-exwm-xrandr-config default "HDMI2")
-;; 		  (my-exwm-xrandr-outputs default "HDMI2" "normal")
-;;                   (my-exwm-xrandr-off "HDMI1")
-;;                   (exwm--log "cond 3 connected: %s"
-;;                              connected)
-;;                   (exwm-randr-refresh)))
-;;           ((member "eDP1" connected)
-;; 	   (progn (my-exwm-xrandr-config default)
-;; 		  (my-exwm-xrandr-outputs default)
-;;                   (my-exwm-xrandr-off "HDMI1")
-;;                   (my-exwm-xrandr-off "HDMI2")
-;;                   (exwm--log "cond 4 connected: %s"
-;;                              connected)
-;;                   (exwm-randr-refresh)))
-;; 	  (t (progn (my-exwm-xrandr-config default default)
-;;  		    (mapcar 'my-exwm-xrandr-off
-;; 			    (delete default previous)))))))
+;; ;; Dynamically find the active xrandr outputs and update exwm
+;; ;; workspace configuration and enable xrandr outputs appropriately.
+;; ;; (defun my-exwm-xrandr-hook-old (default)
+;; ;;   (let* ((connected-cmd "xrandr -q|awk '/ connected/ {print $1}'")
+;; ;; 	 (connected (process-lines "bash" "-lc" connected-cmd))
+;; ;; 	 (previous (delete-dups (seq-remove
+;; ;; 				 'integerp
+;; ;; 				 exwm-randr-workspace-output-plist))))
+;; ;;     (cond ((member "HDMI1" connected)
+;; ;;            (member "HDMI2" connected)
+;; ;;            (progn (my-exwm-xrandr-config default "HDMI2" "HDMI1")
+;; ;; 		  (my-exwm-xrandr-outputs default "HDMI2" "normal" "HDMI1" "left")
+;; ;;                   (my-exwm-xrandr-off default)
+;; ;;                   (exwm--log "cond 1 connected: %s"
+;; ;;                             connected)
+;; ;;                   (exwm-randr-refresh)))
+;; ;;           ((member "HDMI1" connected)
+;; ;; 	   (progn (my-exwm-xrandr-config default "HDMI1")
+;; ;; 		  (my-exwm-xrandr-outputs default "HDMI1" "left")
+;; ;;                   (my-exwm-xrandr-off "HDMI2")
+;; ;;                   (exwm--log "cond 2 connected: %s"
+;; ;;                              connected)
+;; ;;                   (exwm-randr-refresh)))
+;; ;;           ((member "HDMI2" connected)
+;; ;; 	   (progn (my-exwm-xrandr-config default "HDMI2")
+;; ;; 		  (my-exwm-xrandr-outputs default "HDMI2" "normal")
+;; ;;                   (my-exwm-xrandr-off "HDMI1")
+;; ;;                   (exwm--log "cond 3 connected: %s"
+;; ;;                              connected)
+;; ;;                   (exwm-randr-refresh)))
+;; ;;           ((member "eDP1" connected)
+;; ;; 	   (progn (my-exwm-xrandr-config default)
+;; ;; 		  (my-exwm-xrandr-outputs default)
+;; ;;                   (my-exwm-xrandr-off "HDMI1")
+;; ;;                   (my-exwm-xrandr-off "HDMI2")
+;; ;;                   (exwm--log "cond 4 connected: %s"
+;; ;;                              connected)
+;; ;;                   (exwm-randr-refresh)))
+;; ;; 	  (t (progn (my-exwm-xrandr-config default default)
+;; ;;  		    (mapcar 'my-exwm-xrandr-off
+;; ;; 			    (delete default previous)))))))
 
-;; (defun my-exwm-xrandr-hook (default)
-;;   (let* ((connected-cmd "xrandr -q|awk '/ connected/ {print $1}'")
-;; 	 (connected (process-lines "bash" "-lc" connected-cmd))
-;; 	 (previous (delete-dups (seq-remove
-;; 				 'integerp
-;; 				 exwm-randr-workspace-output-plist))))
-;;     (cond ((member "HDMI1" connected)
-;;            (member "HDMI2" connected)
-;; 	   (progn (my-exwm-xrandr-config default "HDMI2" "HDMI1")
-;; 		  (my-exwm-xrandr-outputs default "HDMI2" "normal" "HDMI1" "left")))
-;;           ((member "HDMI1" connected)
-;; 	   (progn (my-exwm-xrandr-config default "HDMI1")
-;; 		  (my-exwm-xrandr-outputs default "HDMI1" "left")))
-;;           ((member "HDMI2" connected)
-;; 	   (progn (my-exwm-xrandr-config default "HDMI2")
-;; 		  (my-exwm-xrandr-outputs default "HDMI2" "normal")))
-;;           ((member "eDP1" connected)
-;; 	   (progn (my-exwm-xrandr-config default)
-;; 		  (my-exwm-xrandr-outputs default)
-;;                   (my-exwm-xrandr-off "HDMI1")
-;;                   (my-exwm-xrandr-off "HDMI2"))
-;; 	  (t (progn (my-exwm-xrandr-config default default)
-;;  		    (mapcar 'my-exwm-xrandr-off
-;; 			    (delete default previous)))))))
+;; ;; (defun my-exwm-xrandr-hook (default)
+;; ;;   (let* ((connected-cmd "xrandr -q|awk '/ connected/ {print $1}'")
+;; ;; 	 (connected (process-lines "bash" "-lc" connected-cmd))
+;; ;; 	 (previous (delete-dups (seq-remove
+;; ;; 				 'integerp
+;; ;; 				 exwm-randr-workspace-output-plist))))
+;; ;;     (cond ((member "HDMI1" connected)
+;; ;;            (member "HDMI2" connected)
+;; ;; 	   (progn (my-exwm-xrandr-config default "HDMI2" "HDMI1")
+;; ;; 		  (my-exwm-xrandr-outputs default "HDMI2" "normal" "HDMI1" "left")))
+;; ;;           ((member "HDMI1" connected)
+;; ;; 	   (progn (my-exwm-xrandr-config default "HDMI1")
+;; ;; 		  (my-exwm-xrandr-outputs default "HDMI1" "left")))
+;; ;;           ((member "HDMI2" connected)
+;; ;; 	   (progn (my-exwm-xrandr-config default "HDMI2")
+;; ;; 		  (my-exwm-xrandr-outputs default "HDMI2" "normal")))
+;; ;;           ((member "eDP1" connected)
+;; ;; 	   (progn (my-exwm-xrandr-config default)
+;; ;; 		  (my-exwm-xrandr-outputs default)
+;; ;;                   (my-exwm-xrandr-off "HDMI1")
+;; ;;                   (my-exwm-xrandr-off "HDMI2"))
+;; ;; 	  (t (progn (my-exwm-xrandr-config default default)
+;; ;;  		    (mapcar 'my-exwm-xrandr-off
+;; ;; 			    (delete default previous)))))))
 
-;; (setq exwm-randr-screen-change-hook
-;;       (lambda () (my-exwm-xrandr-hook "eDP1")))
+;; ;; (setq exwm-randr-screen-change-hook
+;; ;;       (lambda () (my-exwm-xrandr-hook "eDP1")))
 
-;; (exwm-randr-enable)
+;; ;; (exwm-randr-enable)
 
-;; Turn on `display-time-mode' if you don't use an external bar.
-(setq display-time-default-load-average nil)
-(display-time-mode t)
+;; ;; Turn on `display-time-mode' if you don't use an external bar.
+;; (setq display-time-default-load-average nil)
+;; (display-time-mode t)
 
-;; disable annoying minibuffer click that is often misclicked while using systray
-(define-key minibuffer-inactive-mode-map [mouse-1] #'ignore)
+;; ;; disable annoying minibuffer click that is often misclicked while using systray
+;; (define-key minibuffer-inactive-mode-map [mouse-1] #'ignore)
 
-(fringe-mode 1)
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-(setq use-dialog-box nil)
-(setq left-margin-width 0)
-(set-face-background 'fringe "black")
-(setq exwm-systemtray-height 14)
-(exwm-systemtray-enable)
-(exwm-config-default)
+;; (fringe-mode 1)
+;; (menu-bar-mode -1)
+;; (tool-bar-mode -1)
+;; (scroll-bar-mode -1)
+;; (setq use-dialog-box nil)
+;; (setq left-margin-width 0)
+;; (set-face-background 'fringe "black")
+;; (setq exwm-systemtray-height 14)
+;; (exwm-systemtray-enable)
+;; (exwm-config-default)
 
 ;; (defun apps-at-startup ()
 ;;   "open default apps at startup"
