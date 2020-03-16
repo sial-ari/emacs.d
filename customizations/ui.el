@@ -15,6 +15,15 @@
 
 (require 'dracula-theme)
 
+;; Wallpaper setup
+;; (setq window-system-default-frame-alist '((x . ((alpha . 90)))))
+;; (set-frame-parameter (selected-frame) 'alpha '(85 . 50))
+;; (add-to-list 'default-frame-alist '(alpha . (85 . 50)))
+
+(set-frame-parameter (selected-frame) 'alpha '(85 85))
+(add-to-list 'default-frame-alist '(alpha 85 85))
+
+
 ;; increase font size for better readability
 (set-face-attribute 'default nil :height 75)
 
