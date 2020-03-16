@@ -4,18 +4,19 @@
 (require 'exwm-config)
 (require 'exwm-randr)
 
+
+(shell-command "feh --bg-scale ~/sync/pics/fu-chenqi-asset.jpg")
+
 ;; Enable 2/3 monitor home setup with orientation
 (defun my-exwm-xrandr-outputs (default &optional first orientation_first second orientation_second)
   (cond ((and first orientation_first second orientation_second) 
          (shell-command
           (concat "xrandr --output " default
-                  " --auto --right-of " first
-                  " --output " first " --auto --primary --rotate " orientation_first
-                  " --right-of " second
+                  " --off --output " first " --auto --primary --rotate " orientation_first                 " --right-of " second
                   " --output " second " --auto --rotate " orientation_second )))
         ((and first orientation_first) 
          (shell-command
-          (concat "xrandr --output " other 
+          (concat "xrandr --output " first 
                   " --left-of " default " --auto " 
                   " --rotate " orientation_first)))
         ((stringp default)
@@ -33,16 +34,13 @@
                (progn
                  (setq exwm-worspace-number 9)
                  (setq index 1)
-                 (while (<= index 3)
+                 (while (<= index 6)
                    (setq result (append result (list index first)))
                    (setq index (1+ index)))
-                 (while (<= index 6 )
+                 (while (<= index exwm-workspace-number )
                    (setq result (append result (list index second)))
                    (setq index (1+ index)))
-                 (while (<= index exwm-workspace-number)
-                   (setq result (append result (list index default)))
-                   (setq index (1+ index)))
-               result))
+               result)))
         ((stringp first)
          (setq exwm-randr-workspace-output-plist 
                (progn
@@ -63,7 +61,7 @@
                  (while (<= exwm-workspace-number)
                    (setq result (append result (list index default )))
                    (setq index (1+ index)))
-                 result)))))
+                 result))))))
 
 ;; Disable xrandr output named 'output'.
 (defun my-exwm-xrandr-off (output)
@@ -89,7 +87,9 @@
 		  (my-exwm-xrandr-outputs default "HDMI2" "normal")))
           ((member "eDP1" connected)
 	   (progn (my-exwm-xrandr-config default)
-		  (my-exwm-xrandr-outputs default)))
+		  (my-exwm-xrandr-outputs default)
+                  (my-exwm-xrandr-off "HDMI1")
+                  (my-exwm-xrandr-off "HDMI2"))
 	  (t (progn (my-exwm-xrandr-config default default)
  		    (mapcar 'my-exwm-xrandr-off
 			    (delete default previous)))))))
