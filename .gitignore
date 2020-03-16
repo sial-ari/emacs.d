@@ -4,27 +4,18 @@ places
 .recentf
 ido.last
 cider-history
-projectile-bookmarks.eld
-projectile.cache
 auto-save-list
 backups
 elpa/**
-emms/**
-emacs-backup/**
 .mc-lists.el
 tramp
 el-get/**
-<<<<<<< HEAD
 emacs-backup/**
-.mc-lists.el
 \#emacs-backup\#
-eshell/**
-=======
 network-security.data
 transient/**
-\#emacs-backup\#
 bookmarks
 eshell/**
 url/**
 session.*
->>>>>>> dots
+
