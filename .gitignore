@@ -20,3 +20,4 @@ transient/**
 bookmarks
 eshell/**
 url/**
+session.*
