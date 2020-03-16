@@ -1,0 +1,47 @@
+* TODO restructure emacs config
+** TODO customizations -> lisp
+** TODO init.el cleanup
+** TODO use-package
+** TODO el-get
+* TODO autostart
+* TODO transparency and wallpaper
+* TODO gpg pinentry
+* TODO ssh-agent
+* TODO xrandr setup
+
+  what it is and how is used?:
+  #+BEGIN_SRC elisp
+  (exwm-randr--refresh)
+  #+END_SRC
+
+  change between monitors:
+
+  #+BEGIN_SRC elisp
+  C-x 2
+  #+END_SRC
+
+
+  comment from reddit:
+
+  [[https://www.reddit.com/r/emacs/comments/9qpk67/exwm_in_multimonitor_setup/][exwm in multimonitor setup]]
+
+  [[https://github.com/ch11ng/exwm/issues/202][improving exwm-randr #202 gh-issue]]
+  
+  Oops; I think this might be the same as the above answers. I forgot that I had added the following line to my init file (values from consulting output of "xrandr"):
+  
+  #+BEGIN_SRC elisp
+  (require 'exwm-randr)
+  (exwm-randr-enable)  
+  #+END_SRC
+  and then, in my system ~/.profile,
+  
+  #+BEGIN_SRC sh
+  xrandr --newmode "1600x900_60.00"  118.25  1600 1696 1856 2112  900 903 908 934 -hsync +vsync
+
+  xrandr --addmode eDP1 1600x900_60.00
+
+  xrandr --output eDP1 --mode 1600x900_60.00
+  #+END_SRC
+  
+  It's been so long since I touched either of these, I'd forgotten
+* TODO emacs dvorak?

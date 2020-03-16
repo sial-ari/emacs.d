@@ -2,7 +2,7 @@
 (menu-bar-mode -1)
 
 ;; Show line numbers
-(global-linum-mode)
+;; (global-nlinum-mode)
 
 ;; You can uncomment this to remove the graphical toolbar at the top. After
 ;; awhile, you won't need the toolbar.
@@ -13,10 +13,19 @@
 (when (fboundp 'scroll-bar-mode)
   (scroll-bar-mode -1))
 
-(load-theme 'dracula t)
+(require 'dracula-theme)
+
+;; Wallpaper setup
+;; (setq window-system-default-frame-alist '((x . ((alpha . 90)))))
+;; (set-frame-parameter (selected-frame) 'alpha '(85 . 50))
+;; (add-to-list 'default-frame-alist '(alpha . (85 . 50)))
+
+(set-frame-parameter (selected-frame) 'alpha '(85 85))
+(add-to-list 'default-frame-alist '(alpha 85 85))
+
 
 ;; increase font size for better readability
-(set-face-attribute 'default nil :height 90)
+(set-face-attribute 'default nil :height 75)
 
 ;; Uncomment the lines below by removing semicolons and play with the
 ;; values in order to set the width (in characters wide) and height
