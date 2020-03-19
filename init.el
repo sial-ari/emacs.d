@@ -25,8 +25,7 @@
 (defvar my-packages
   '(
     ag
-    cheatsheet
-    dired+
+    ;; dired+
     paredit
     rainbow-delimiters
     smex
@@ -121,10 +120,6 @@
 
 ;; For editing lisps
 (load "elisp-editing.el")
-
-;; For cheatsheet.el
-(load "cheats.el")
-
 
 ;; Custom exec-path
 (add-to-list 'exec-path "~/.bin")
@@ -239,7 +234,6 @@
 (require 'setup-keybindings)
 (require 'setup-packages)
 (require 'setup-defuns)
-(require 'setup-cheatsheet)
 
 ;; exwm
 (require 'exwm)
