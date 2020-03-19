@@ -4,4 +4,8 @@
 (setq org-src-tab-acts-natively t)
 (setq help-window-select t)
 
+(setq display-time-day-and-date t
+      display-time-24hr-format t)
+(display-time)
+
 (provide 'setup-settings)
