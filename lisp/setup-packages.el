@@ -216,6 +216,46 @@
   :config
   (dumb-jump-mode +1))
 
+;; tempbuf-mode
+(use-package tempbuf
+  :ensure nil
+  :load-path "lisp/tempbuf"
+  :config
+  (add-hook 'dired-mode-hook 'turn-on-tempbuf-mode)
+  (add-hook 'view-mode-hook 'turn-on-tempbuf-mode)
+  (add-hook 'custom-mode-hook 'turn-on-tempbuf-mode)
+  (add-hook 'man-mode-hook 'turn-on-tempbuf-mode)
+  (add-hook 'completion-list-mode-hook 'turn-on-tempbuf-mode)
+  (add-hook 'help-mode-hook 'turn-on-tempbuf-mode))
+
+(use-package helpful
+  :ensure t
+  :bind (("C-h f" . helpful-callable)
+         ("C-h v" . helpful-variable)
+         ("C-h k" . helpful-key)
+         ("C-h F" . helpful-function)
+         ("C-c h" . heplful-at-point))
+  :config
+  (advice-add #'describe-key :override #'helpful-key)
+  (advice-add #'describe-function :override #'helpful-callable)
+  (advice-add #'describe-variable :override #'helpful-variable)
+  (advice-add #'describe-symbol :override #'helpful-symbol))
+
+;; restart emacs
+(use-package restart-emacs
+  :ensure t)
+
+(use-package wallpaper
+  :load-path "lisp/wallpaper"
+  :custom ((wallpaper-static-wallpapers '("~/downloads/narcosynthesis_by_f1x_2_d9t2a3a-fullview.jpg"))))
+
+(use-package exwm-background
+  :load-path "lisp/exwm-background")
+
+(use-package hydra
+  :ensure t)
+
+
 (add-hook 'org-mode-hook 'turn-on-auto-fill)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
